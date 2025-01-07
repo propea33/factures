@@ -89,11 +89,12 @@ class PDFGenerator {
                 <table style="width: 100%; margin-bottom: 30px; border: none;">
                     <tr>
                         <td style="border: none; width: 50%; vertical-align: top;">
-                            <h2 style="margin: 0; color: #333;">${formData.businessName}</h2>
-                            <p style="margin: 5px 0;">${formData.businessAddress}</p>
-                            <p style="margin: 5px 0;">Tél: ${formData.businessPhone}</p>
-                            <p style="margin: 5px 0;">Courriel: ${formData.businessEmail}</p>
-                            <p style="margin: 5px 0;">TPS #: ${formData.gstNumber}</p>
+                           <h2 style="margin: 0; color: #333;">${formData.businessName}</h2>
+<p style="margin: 5px 0;">${formData.businessAddress}</p>
+<p style="margin: 5px 0;">Tél: ${formData.businessPhone}</p>
+<p style="margin: 5px 0;">Courriel: ${formData.businessEmail}</p>
+<p style="margin: 5px 0;">GST #: ${formData.gstNumber || 'N/A'}</p>
+<p style="margin: 5px 0;">QST #: ${formData.qstNumber || 'N/A'}</p>
                         </td>
                         <td style="border: none; width: 50%; text-align: right; vertical-align: top;">
                             <h1 style="margin: 0; color: #2c3e50;">FACTURE</h1>
@@ -158,4 +159,12 @@ class PDFGenerator {
             </div>
         `;
     }
+    static showPreview(formData, items, taxes) {
+    const preview = document.getElementById('preview');
+    preview.style.display = 'block';
+    preview.innerHTML = this.generateHTML(formData, items, taxes);
+    
+    // Faire défiler jusqu'à l'aperçu
+    preview.scrollIntoView({ behavior: 'smooth' });
+}
 }
