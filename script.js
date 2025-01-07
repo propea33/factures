@@ -65,7 +65,36 @@ document.addEventListener('DOMContentLoaded', function() {
         const phoneRegex = /^[\d\s\-()]+$/;
         return phoneRegex.test(phone);
     }
+document.getElementById('previewInvoice').addEventListener('click', async function() {
+    const formData = {
+        businessName: document.getElementById('businessName').value,
+        businessEmail: document.getElementById('businessEmail').value,
+        businessAddress: document.getElementById('businessAddress').value,
+        businessPhone: document.getElementById('businessPhone').value,
+        gstNumber: document.getElementById('gstNumber').value,
+        qstNumber: document.getElementById('qstNumber').value,
+        clientName: document.getElementById('clientName').value,
+        clientEmail: document.getElementById('clientEmail').value,
+        clientAddress: document.getElementById('clientAddress').value,
+        clientPhone: document.getElementById('clientPhone').value,
+        clientMobile: document.getElementById('clientMobile').value,
+        clientFax: document.getElementById('clientFax').value,
+        invoiceNumber: document.getElementById('invoiceNumber').value,
+        invoiceDate: document.getElementById('invoiceDate').value,
+        terms: document.getElementById('terms').value
+    };
 
+    const items = itemManager.getItems();
+    const subtotal = items.reduce((sum, item) => sum + item.amount, 0);
+    const taxes = TaxCalculator.calculateTaxes(subtotal);
+
+    const preview = document.getElementById('preview');
+    preview.innerHTML = PDFGenerator.generateHTML(formData, items, taxes);
+    preview.style.display = 'block';
+
+    // Scroll to preview
+    preview.scrollIntoView({ behavior: 'smooth' });
+});
     function validateEmail(email) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
