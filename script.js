@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     const itemManager = new ItemManager();
+    const clientStorage = new ClientStorage();
     const form = document.getElementById('invoiceForm');
 
     // Set default date to today
@@ -27,6 +28,11 @@ document.addEventListener('DOMContentLoaded', function() {
             invoiceNumber: document.getElementById('invoiceNumber').value,
             invoiceDate: document.getElementById('invoiceDate').value
         };
+
+        // Sauvegarder les données du client
+        if (formData.clientName) {
+            clientStorage.saveClient(clientStorage.getAllClientData());
+        }
 
         const items = itemManager.getItems();
         const subtotal = items.reduce((sum, item) => sum + item.amount, 0);
