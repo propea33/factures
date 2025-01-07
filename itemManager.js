@@ -12,13 +12,27 @@ class ItemManager {
     createItemRow() {
         const row = document.createElement('div');
         row.className = 'item-row';
-        row.innerHTML = `
-            <input type="text" class="item-description" placeholder="Description" required>
+        
+        // Description en haut
+        const descriptionInput = document.createElement('input');
+        descriptionInput.type = 'text';
+        descriptionInput.className = 'item-description';
+        descriptionInput.placeholder = 'Description';
+        descriptionInput.required = true;
+        
+        // Container pour les autres champs
+        const detailsContainer = document.createElement('div');
+        detailsContainer.className = 'item-details';
+        
+        detailsContainer.innerHTML = `
             <input type="number" class="item-rate" placeholder="Taux" step="0.01" min="0" required>
             <input type="number" class="item-quantity" placeholder="Quantité" min="1" value="1" required>
             <input type="number" class="item-amount" placeholder="Montant" readonly>
             <button type="button" class="remove-item">×</button>
         `;
+        
+        row.appendChild(descriptionInput);
+        row.appendChild(detailsContainer);
 
         this.setupRowCalculation(row);
         return row;
