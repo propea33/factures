@@ -117,14 +117,25 @@ button:hover {
 }
 
 .item-row {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr auto;
+    display: flex;
+    flex-direction: column;
     gap: 10px;
-    margin-bottom: 10px;
-    align-items: start;
+    margin-bottom: 20px;
     background: white;
     padding: 10px;
     border-radius: 4px;
+}
+
+.item-row .item-description {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.item-row .item-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr auto;
+    gap: 10px;
+    align-items: center;
 }
 
 .remove-item {
