@@ -63,7 +63,6 @@ class PDFGenerator {
             );
 
             pdf.save(`facture-${formData.invoiceNumber}.pdf`);
-            
             preview.style.display = 'none';
             
             return true;
@@ -75,32 +74,36 @@ class PDFGenerator {
     }
 
     static generateHTML(formData, items, taxes) {
+        // Formatage correct de la date
+        const invoiceDate = new Date(formData.invoiceDate);
+        const formattedDate = invoiceDate.toLocaleDateString('fr-CA');
+
         return `
             <div class="invoice-preview">
                 <table style="width: 100%; margin-bottom: 30px; border: none;">
                     <tr>
                         <td style="border: none; width: 50%; vertical-align: top;">
-                            <h2 style="margin: 0; color: #333;">${formData.businessName || ''}</h2>
-                            <p style="margin: 5px 0;">${formData.businessAddress || ''}</p>
-                            <p style="margin: 5px 0;">Tél: ${formData.businessPhone || ''}</p>
-                            <p style="margin: 5px 0;">Courriel: ${formData.businessEmail || ''}</p>
+                            <h2 style="margin: 0; color: #333;">${formData.businessName}</h2>
+                            <p style="margin: 5px 0;">${formData.businessAddress}</p>
+                            <p style="margin: 5px 0;">Tél: ${formData.businessPhone}</p>
+                            <p style="margin: 5px 0;">Courriel: ${formData.businessEmail}</p>
                             <p style="margin: 5px 0;">GST #: ${formData.gstNumber || 'N/A'}</p>
                             <p style="margin: 5px 0;">QST #: ${formData.qstNumber || 'N/A'}</p>
                         </td>
                         <td style="border: none; width: 50%; text-align: right; vertical-align: top;">
                             <h1 style="margin: 0; color: #2c3e50;">FACTURE</h1>
-                            <p style="margin: 5px 0;">Numéro: ${formData.invoiceNumber || ''}</p>
-                            <p style="margin: 5px 0;">Date: ${formData.invoiceDate ? new Date(formData.invoiceDate).toLocaleDateString() : ''}</p>
+                            <p style="margin: 5px 0;">Numéro: ${formData.invoiceNumber}</p>
+                            <p style="margin: 5px 0;">Date: ${formattedDate}</p>
                         </td>
                     </tr>
                 </table>
 
                 <div style="margin: 20px 0;">
                     <h3 style="margin: 0 0 10px 0;">Facturer à:</h3>
-                    <p style="margin: 5px 0;">${formData.clientName || ''}</p>
-                    <p style="margin: 5px 0;">${formData.clientAddress || ''}</p>
-                    <p style="margin: 5px 0;">Tél: ${formData.clientPhone || ''}</p>
-                    <p style="margin: 5px 0;">Courriel: ${formData.clientEmail || ''}</p>
+                    <p style="margin: 5px 0;">${formData.clientName}</p>
+                    <p style="margin: 5px 0;">${formData.clientAddress}</p>
+                    <p style="margin: 5px 0;">Tél: ${formData.clientPhone}</p>
+                    <p style="margin: 5px 0;">Courriel: ${formData.clientEmail}</p>
                 </div>
 
                 <table>
