@@ -63,7 +63,9 @@ class PDFGenerator {
             );
 
             pdf.save(`facture-${formData.invoiceNumber}.pdf`);
+            
             preview.style.display = 'none';
+            
             return true;
         } catch (error) {
             console.error('Erreur lors de la génération du PDF:', error);
@@ -73,30 +75,22 @@ class PDFGenerator {
     }
 
     static generateHTML(formData, items, taxes) {
-        // Formater la date correctement
-        const invoiceDate = new Date(formData.invoiceDate);
-        const formattedDate = invoiceDate.toLocaleDateString('fr-CA', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        });
-
         return `
             <div class="invoice-preview">
                 <table style="width: 100%; margin-bottom: 30px; border: none;">
                     <tr>
                         <td style="border: none; width: 50%; vertical-align: top;">
-                           <h2 style="margin: 0; color: #333;">${formData.businessName || ''}</h2>
-                           <p style="margin: 5px 0;">${formData.businessAddress || ''}</p>
-                           <p style="margin: 5px 0;">Tél: ${formData.businessPhone || ''}</p>
-                           <p style="margin: 5px 0;">Courriel: ${formData.businessEmail || ''}</p>
-                           <p style="margin: 5px 0;">GST #: ${formData.gstNumber || 'N/A'}</p>
-                           <p style="margin: 5px 0;">QST #: ${formData.qstNumber || 'N/A'}</p>
+                            <h2 style="margin: 0; color: #333;">${formData.businessName || ''}</h2>
+                            <p style="margin: 5px 0;">${formData.businessAddress || ''}</p>
+                            <p style="margin: 5px 0;">Tél: ${formData.businessPhone || ''}</p>
+                            <p style="margin: 5px 0;">Courriel: ${formData.businessEmail || ''}</p>
+                            <p style="margin: 5px 0;">GST #: ${formData.gstNumber || 'N/A'}</p>
+                            <p style="margin: 5px 0;">QST #: ${formData.qstNumber || 'N/A'}</p>
                         </td>
                         <td style="border: none; width: 50%; text-align: right; vertical-align: top;">
                             <h1 style="margin: 0; color: #2c3e50;">FACTURE</h1>
                             <p style="margin: 5px 0;">Numéro: ${formData.invoiceNumber || ''}</p>
-                            <p style="margin: 5px 0;">Date: ${formattedDate}</p>
+                            <p style="margin: 5px 0;">Date: ${formData.invoiceDate ? new Date(formData.invoiceDate).toLocaleDateString() : ''}</p>
                         </td>
                     </tr>
                 </table>
@@ -121,10 +115,10 @@ class PDFGenerator {
                     <tbody>
                         ${items.map(item => `
                             <tr>
-                                <td style="text-align: left;">${item.description || ''}</td>
-                                <td style="text-align: right;">${(item.rate || 0).toFixed(2)} $</td>
-                                <td style="text-align: right;">${item.quantity || 0}</td>
-                                <td style="text-align: right;">${(item.amount || 0).toFixed(2)} $</td>
+                                <td style="text-align: left;">${item.description}</td>
+                                <td style="text-align: right;">${item.rate.toFixed(2)} $</td>
+                                <td style="text-align: right;">${item.quantity}</td>
+                                <td style="text-align: right;">${item.amount.toFixed(2)} $</td>
                             </tr>
                         `).join('')}
                     </tbody>
