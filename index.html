@@ -13,9 +13,7 @@
         <h1>Générateur de facture</h1>
         
         <form id="invoiceForm">
-            <!-- Section flex pour Information Entreprise et Client -->
             <div class="flex-container">
-                <!-- Section Information Entreprise -->
                 <section class="form-section flex-item">
                     <h2>Information de l'entreprise</h2>
                     <div class="form-group">
@@ -44,7 +42,6 @@
                     </div>
                 </section>
 
-                <!-- Section Information Client -->
                 <section class="form-section flex-item">
                     <h2>Information du client</h2>
                     <div class="form-group">
@@ -63,20 +60,10 @@
                         <label for="clientPhone">Téléphone</label>
                         <input type="tel" id="clientPhone">
                     </div>
-                    <div class="form-group">
-                        <label for="clientMobile">Mobile</label>
-                        <input type="tel" id="clientMobile">
-                    </div>
-                    <div class="form-group">
-                        <label for="clientFax">Fax</label>
-                        <input type="tel" id="clientFax">
-                    </div>
                 </section>
             </div>
 
-            <!-- Section flex pour Détails Facture et Items -->
             <div class="flex-container">
-                <!-- Section Détails Facture -->
                 <section class="form-section flex-item">
                     <h2>Détails de la facture</h2>
                     <div class="form-group">
@@ -87,13 +74,8 @@
                         <label for="invoiceDate">Date</label>
                         <input type="date" id="invoiceDate">
                     </div>
-                    <div class="form-group">
-                        <label for="terms">Conditions</label>
-                        <input type="text" id="terms" value="Sur réception">
-                    </div>
                 </section>
 
-                <!-- Section Items -->
                 <section class="form-section flex-item">
                     <h2>Items</h2>
                     <div id="itemsContainer">
