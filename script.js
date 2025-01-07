@@ -1,29 +1,114 @@
-const factureForm = document.getElementById('factureForm');
-const pdfViewer = document.getElementById('pdfViewer');
+// script.js - Main application logic
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize components
+    const itemManager = new ItemManager();
+    const form = document.getElementById('invoiceForm');
 
-function genererPDF() {
-  // Récupérer les données du formulaire
-  const formData = new FormData(factureForm);
-  // ... Traitement des données (calculs, validation) ...
+    // Set default date to today
+    document.getElementById('invoiceDate').valueAsDate = new Date();
+    
+    // Generate default invoice number (INVyyyyMMddxxx)
+    const today = new Date();
+    const defaultInvoiceNumber = `INV${today.getFullYear()}${String(today.getMonth() + 1).padStart(2, '0')}${String(today.getDate()).padStart(2, '0')}001`;
+    document.getElementById('invoiceNumber').value = defaultInvoiceNumber;
 
-  // Créer un nouveau document PDF
-  const doc = new jsPDF();
+    // Form submission handler
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
 
-  // Récupérer le contenu du modèle HTML
-  fetch('pdfTemplate.html')
-    .then(response => response.text())
-    .then(template => {
-      // Remplacer les éléments dynamiques dans le template
-      const html = template
-        .replace('{{factureNumber}}', formData.get('factureNumber'));
-      // ... Autres remplacements ...
+        // Collect form data
+        const formData = {
+            // Business Information
+            businessName: document.getElementById('businessName').value,
+            businessEmail: document.getElementById('businessEmail').value,
+            businessAddress: document.getElementById('businessAddress').value,
+            businessPhone: document.getElementById('businessPhone').value,
+            gstNumber: document.getElementById('gstNumber').value,
 
-      // Ajouter le contenu HTML au PDF
-      doc.html(html, {
-        callback: function(doc) {
-          doc.save('facture.pdf');
-          pdfViewer.src = URL.createObjectURL(doc.output('blob'));
+            // Client Information
+            clientName: document.getElementById('clientName').value,
+            clientEmail: document.getElementById('clientEmail').value,
+            clientAddress: document.getElementById('clientAddress').value,
+            clientPhone: document.getElementById('clientPhone').value,
+            clientMobile: document.getElementById('clientMobile').value,
+            clientFax: document.getElementById('clientFax').value,
+
+            // Invoice Details
+            invoiceNumber: document.getElementById('invoiceNumber').value,
+            invoiceDate: document.getElementById('invoiceDate').value,
+            terms: document.getElementById('terms').value
+        };
+
+        // Get items from ItemManager
+        const items = itemManager.getItems();
+
+        // Calculate subtotal
+        const subtotal = items.reduce((sum, item) => sum + item.amount, 0);
+
+        // Calculate taxes using TaxCalculator
+        const taxes = TaxCalculator.calculateTaxes(subtotal);
+
+        try {
+            // Generate PDF using PDFGenerator
+            await PDFGenerator.generatePDF(formData, items, taxes);
+            
+            // Optional: Show success message
+            alert('Facture générée avec succès!');
+        } catch (error) {
+            console.error('Erreur lors de la génération de la facture:', error);
+            alert('Une erreur est survenue lors de la génération de la facture.');
         }
-      });
     });
-}
+
+    // Add form validation
+    function validatePhoneNumber(phone) {
+        const phoneRegex = /^[\d\s\-()]+$/;
+        return phoneRegex.test(phone);
+    }
+
+    function validateEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+    // Add input validation listeners
+    const phoneInputs = document.querySelectorAll('input[type="tel"]');
+    phoneInputs.forEach(input => {
+        input.addEventListener('input', function() {
+            if (this.value && !validatePhoneNumber(this.value)) {
+                this.setCustomValidity('Veuillez entrer un numéro de téléphone valide');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+    });
+
+    const emailInputs = document.querySelectorAll('input[type="email"]');
+    emailInputs.forEach(input => {
+        input.addEventListener('input', function() {
+            if (this.value && !validateEmail(this.value)) {
+                this.setCustomValidity('Veuillez entrer une adresse courriel valide');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+    });
+
+    // Format phone numbers as they are entered
+    function formatPhoneNumber(phone) {
+        const cleaned = phone.replace(/\D/g, '');
+        const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+        if (match) {
+            return '(' + match[1] + ') ' + match[2] + '-' + match[3];
+        }
+        return phone;
+    }
+
+    phoneInputs.forEach(input => {
+        input.addEventListener('blur', function() {
+            if (this.value.length >= 10) {
+                this.value = formatPhoneNumber(this.value);
+            }
+        });
+    });
+});
