@@ -65,35 +65,30 @@ document.addEventListener('DOMContentLoaded', function() {
         const phoneRegex = /^[\d\s\-()]+$/;
         return phoneRegex.test(phone);
     }
-document.getElementById('previewInvoice').addEventListener('click', async function() {
+document.getElementById('previewInvoice').addEventListener('click', function() {
     const formData = {
-        businessName: document.getElementById('businessName').value,
-        businessEmail: document.getElementById('businessEmail').value,
-        businessAddress: document.getElementById('businessAddress').value,
-        businessPhone: document.getElementById('businessPhone').value,
-        gstNumber: document.getElementById('gstNumber').value,
-        qstNumber: document.getElementById('qstNumber').value,
-        clientName: document.getElementById('clientName').value,
-        clientEmail: document.getElementById('clientEmail').value,
-        clientAddress: document.getElementById('clientAddress').value,
-        clientPhone: document.getElementById('clientPhone').value,
-        clientMobile: document.getElementById('clientMobile').value,
-        clientFax: document.getElementById('clientFax').value,
-        invoiceNumber: document.getElementById('invoiceNumber').value,
-        invoiceDate: document.getElementById('invoiceDate').value,
-        terms: document.getElementById('terms').value
+        businessName: document.getElementById('businessName').value || 'N/A',
+        businessEmail: document.getElementById('businessEmail').value || 'N/A',
+        businessAddress: document.getElementById('businessAddress').value || 'N/A',
+        businessPhone: document.getElementById('businessPhone').value || 'N/A',
+        gstNumber: document.getElementById('gstNumber').value || 'N/A',
+        qstNumber: document.getElementById('qstNumber').value || 'N/A',
+        clientName: document.getElementById('clientName').value || 'N/A',
+        clientEmail: document.getElementById('clientEmail').value || 'N/A',
+        clientAddress: document.getElementById('clientAddress').value || 'N/A',
+        clientPhone: document.getElementById('clientPhone').value || 'N/A',
+        clientMobile: document.getElementById('clientMobile').value || 'N/A',
+        clientFax: document.getElementById('clientFax').value || 'N/A',
+        invoiceNumber: document.getElementById('invoiceNumber').value || 'N/A',
+        invoiceDate: document.getElementById('invoiceDate').value || new Date().toISOString().split('T')[0],
+        terms: document.getElementById('terms').value || 'Sur réception'
     };
 
     const items = itemManager.getItems();
     const subtotal = items.reduce((sum, item) => sum + item.amount, 0);
     const taxes = TaxCalculator.calculateTaxes(subtotal);
 
-    const preview = document.getElementById('preview');
-    preview.innerHTML = PDFGenerator.generateHTML(formData, items, taxes);
-    preview.style.display = 'block';
-
-    // Scroll to preview
-    preview.scrollIntoView({ behavior: 'smooth' });
+    PDFGenerator.showPreview(formData, items, taxes);
 });
     function validateEmail(email) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
