@@ -1,14 +1,107 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-  <title>Générateur de Factures</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Système de Facturation - Québec</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
-  <form id="factureForm">
-    </form>
-  <button onclick="genererPDF()">Générer la facture</button>
-  <iframe id="pdfViewer" style="width:100%; height:500px;"></iframe>
-  <script src="script.js"></script>
+    <div class="container">
+        <h1>Système de Facturation - Québec</h1>
+        
+        <form id="invoiceForm">
+            <!-- Section Information Entreprise -->
+            <section class="form-section">
+                <h2>Information de l'entreprise</h2>
+                <div class="form-group">
+                    <label for="businessName">Nom de l'entreprise</label>
+                    <input type="text" id="businessName" required>
+                </div>
+                <div class="form-group">
+                    <label for="businessEmail">Courriel</label>
+                    <input type="email" id="businessEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="businessAddress">Adresse</label>
+                    <input type="text" id="businessAddress" required>
+                </div>
+                <div class="form-group">
+                    <label for="businessPhone">Téléphone</label>
+                    <input type="tel" id="businessPhone" required>
+                </div>
+                <div class="form-group">
+                    <label for="gstNumber">Numéro TPS</label>
+                    <input type="text" id="gstNumber" required>
+                </div>
+            </section>
+
+            <!-- Section Information Client -->
+            <section class="form-section">
+                <h2>Information du client</h2>
+                <div class="form-group">
+                    <label for="clientName">Nom du client</label>
+                    <input type="text" id="clientName" required>
+                </div>
+                <div class="form-group">
+                    <label for="clientEmail">Courriel</label>
+                    <input type="email" id="clientEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="clientAddress">Adresse</label>
+                    <input type="text" id="clientAddress" required>
+                </div>
+                <div class="form-group">
+                    <label for="clientPhone">Téléphone</label>
+                    <input type="tel" id="clientPhone" required>
+                </div>
+                <div class="form-group">
+                    <label for="clientMobile">Mobile</label>
+                    <input type="tel" id="clientMobile">
+                </div>
+                <div class="form-group">
+                    <label for="clientFax">Fax</label>
+                    <input type="tel" id="clientFax">
+                </div>
+            </section>
+
+            <!-- Section Détails Facture -->
+            <section class="form-section">
+                <h2>Détails de la facture</h2>
+                <div class="form-group">
+                    <label for="invoiceNumber">Numéro de facture</label>
+                    <input type="text" id="invoiceNumber" required>
+                </div>
+                <div class="form-group">
+                    <label for="invoiceDate">Date</label>
+                    <input type="date" id="invoiceDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="terms">Conditions</label>
+                    <input type="text" id="terms" value="Sur réception" required>
+                </div>
+            </section>
+
+            <!-- Section Items -->
+            <section class="form-section">
+                <h2>Articles</h2>
+                <div id="itemsContainer">
+                    <!-- Les articles seront ajoutés ici -->
+                </div>
+                <button type="button" id="addItem">Ajouter un article</button>
+            </section>
+
+            <button type="submit" id="generateInvoice">Générer la facture</button>
+        </form>
+
+        <div id="preview" style="display: none;"></div>
+    </div>
+
+    <script src="taxCalculator.js"></script>
+    <script src="itemManager.js"></script>
+    <script src="pdfGenerator.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
