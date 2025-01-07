@@ -3,7 +3,6 @@ class PDFGenerator {
         const preview = document.getElementById('preview');
         preview.style.display = 'block';
         
-        // Ajouter des styles spécifiques pour l'impression
         preview.innerHTML = `
             <style>
                 .invoice-preview {
@@ -34,29 +33,24 @@ class PDFGenerator {
         `;
         
         try {
-            // Attendre que jsPDF soit complètement chargé
             const { jsPDF } = window.jspdf;
             
-            // Capture la page en image
             const canvas = await html2canvas(preview, {
-                scale: 2, // Meilleure qualité
+                scale: 2,
                 useCORS: true,
                 logging: false
             });
             
-            // Créer le PDF
             const pdf = new jsPDF({
                 orientation: 'portrait',
                 unit: 'mm',
                 format: 'a4'
             });
 
-            // Calculer les dimensions
-            const imgWidth = 210; // A4 width in mm
-            const pageHeight = 295; // A4 height in mm
+            const imgWidth = 210;
+            const pageHeight = 295;
             const imgHeight = canvas.height * imgWidth / canvas.width;
 
-            // Ajouter l'image au PDF
             pdf.addImage(
                 canvas.toDataURL('image/jpeg', 1.0),
                 'JPEG',
@@ -68,16 +62,13 @@ class PDFGenerator {
                 'FAST'
             );
 
-            // Sauvegarder le PDF
             pdf.save(`facture-${formData.invoiceNumber}.pdf`);
             
-            // Cacher la prévisualisation
             preview.style.display = 'none';
             
             return true;
         } catch (error) {
             console.error('Erreur lors de la génération du PDF:', error);
-            alert('Erreur lors de la génération du PDF. Veuillez réessayer.');
             preview.style.display = 'none';
             return false;
         }
@@ -89,30 +80,27 @@ class PDFGenerator {
                 <table style="width: 100%; margin-bottom: 30px; border: none;">
                     <tr>
                         <td style="border: none; width: 50%; vertical-align: top;">
-                           <h2 style="margin: 0; color: #333;">${formData.businessName}</h2>
-<p style="margin: 5px 0;">${formData.businessAddress}</p>
-<p style="margin: 5px 0;">Tél: ${formData.businessPhone}</p>
-<p style="margin: 5px 0;">Courriel: ${formData.businessEmail}</p>
-<p style="margin: 5px 0;">GST #: ${formData.gstNumber || 'N/A'}</p>
-<p style="margin: 5px 0;">QST #: ${formData.qstNumber || 'N/A'}</p>
+                            <h2 style="margin: 0; color: #333;">${formData.businessName || ''}</h2>
+                            <p style="margin: 5px 0;">${formData.businessAddress || ''}</p>
+                            <p style="margin: 5px 0;">Tél: ${formData.businessPhone || ''}</p>
+                            <p style="margin: 5px 0;">Courriel: ${formData.businessEmail || ''}</p>
+                            <p style="margin: 5px 0;">GST #: ${formData.gstNumber || 'N/A'}</p>
+                            <p style="margin: 5px 0;">QST #: ${formData.qstNumber || 'N/A'}</p>
                         </td>
                         <td style="border: none; width: 50%; text-align: right; vertical-align: top;">
                             <h1 style="margin: 0; color: #2c3e50;">FACTURE</h1>
-                            <p style="margin: 5px 0;">Numéro: ${formData.invoiceNumber}</p>
-                            <p style="margin: 5px 0;">Date: ${new Date(formData.invoiceDate).toLocaleDateString()}</p>
-                            <p style="margin: 5px 0;">Conditions: ${formData.terms}</p>
+                            <p style="margin: 5px 0;">Numéro: ${formData.invoiceNumber || ''}</p>
+                            <p style="margin: 5px 0;">Date: ${formData.invoiceDate ? new Date(formData.invoiceDate).toLocaleDateString() : ''}</p>
                         </td>
                     </tr>
                 </table>
 
                 <div style="margin: 20px 0;">
                     <h3 style="margin: 0 0 10px 0;">Facturer à:</h3>
-                    <p style="margin: 5px 0;">${formData.clientName}</p>
-                    <p style="margin: 5px 0;">${formData.clientAddress}</p>
-                    <p style="margin: 5px 0;">Tél: ${formData.clientPhone}</p>
-                    ${formData.clientMobile ? `<p style="margin: 5px 0;">Mobile: ${formData.clientMobile}</p>` : ''}
-                    ${formData.clientFax ? `<p style="margin: 5px 0;">Fax: ${formData.clientFax}</p>` : ''}
-                    <p style="margin: 5px 0;">Courriel: ${formData.clientEmail}</p>
+                    <p style="margin: 5px 0;">${formData.clientName || ''}</p>
+                    <p style="margin: 5px 0;">${formData.clientAddress || ''}</p>
+                    <p style="margin: 5px 0;">Tél: ${formData.clientPhone || ''}</p>
+                    <p style="margin: 5px 0;">Courriel: ${formData.clientEmail || ''}</p>
                 </div>
 
                 <table>
@@ -159,12 +147,11 @@ class PDFGenerator {
             </div>
         `;
     }
+
     static showPreview(formData, items, taxes) {
-    const preview = document.getElementById('preview');
-    preview.style.display = 'block';
-    preview.innerHTML = this.generateHTML(formData, items, taxes);
-    
-    // Faire défiler jusqu'à l'aperçu
-    preview.scrollIntoView({ behavior: 'smooth' });
-}
+        const preview = document.getElementById('preview');
+        preview.style.display = 'block';
+        preview.innerHTML = this.generateHTML(formData, items, taxes);
+        preview.scrollIntoView({ behavior: 'smooth' });
+    }
 }
