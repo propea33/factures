@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
 
+        // Collecter toutes les données du formulaire
         const formData = {
             businessName: document.getElementById('businessName').value,
             businessEmail: document.getElementById('businessEmail').value,
@@ -29,9 +30,21 @@ document.addEventListener('DOMContentLoaded', function() {
             invoiceDate: document.getElementById('invoiceDate').value
         };
 
-        // Sauvegarder les données du client
-        if (formData.clientName) {
-            clientStorage.saveClient(clientStorage.getAllClientData());
+        // Sauvegarder le client seulement s'il y a un nom
+        if (formData.clientName.trim() !== '') {
+            const clientData = {
+                clientName: formData.clientName,
+                clientEmail: formData.clientEmail,
+                clientAddress: formData.clientAddress,
+                clientPhone: formData.clientPhone,
+                businessName: formData.businessName,
+                businessEmail: formData.businessEmail,
+                businessAddress: formData.businessAddress,
+                businessPhone: formData.businessPhone,
+                gstNumber: formData.gstNumber,
+                qstNumber: formData.qstNumber
+            };
+            clientStorage.saveClient(clientData);
         }
 
         const items = itemManager.getItems();
@@ -59,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
             clientAddress: document.getElementById('clientAddress').value || 'N/A',
             clientPhone: document.getElementById('clientPhone').value || 'N/A',
             invoiceNumber: document.getElementById('invoiceNumber').value || 'N/A',
-            invoiceDate: document.getElementById('invoiceDate').value || new Date().toISOString().split('T')[0]
+            invoiceDate: document.getElementById('invoiceDate').value
         };
 
         const items = itemManager.getItems();
