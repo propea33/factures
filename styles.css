@@ -28,17 +28,15 @@ h1 {
     margin-bottom: 30px;
 }
 
-.grid-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+.flex-container {
+    display: flex;
     gap: 20px;
     margin-bottom: 20px;
 }
 
-@media (max-width: 768px) {
-    .grid-container {
-        grid-template-columns: 1fr;
-    }
+.flex-item {
+    flex: 1;
+    min-width: 0; /* Empêche le débordement */
 }
 
 .form-section {
@@ -46,7 +44,6 @@ h1 {
     padding: 20px;
     border-radius: 5px;
     border: 1px solid #dee2e6;
-    height: 100%;
 }
 
 h2 {
@@ -95,24 +92,24 @@ button:hover {
     background-color: #0056b3;
 }
 
-.buttons-container {
+.button-group {
     display: flex;
-    gap: 20px;
+    gap: 10px;
     margin-top: 20px;
 }
 
-.preview-button {
-    background-color: #6c757d;
+#previewInvoice {
     flex: 1;
+    background-color: #6c757d;
 }
 
-.preview-button:hover {
+#previewInvoice:hover {
     background-color: #5a6268;
 }
 
 #generateInvoice {
-    background-color: #28a745;
     flex: 1;
+    background-color: #28a745;
 }
 
 #generateInvoice:hover {
@@ -141,25 +138,16 @@ button:hover {
 
 #addItem {
     margin-top: 10px;
-    background-color: #6c757d;
     width: 100%;
+    background-color: #6c757d;
 }
 
 #addItem:hover {
     background-color: #5a6268;
 }
 
-/* Styles pour la prévisualisation */
-#preview {
-    margin-top: 20px;
-    padding: 20px;
-    background: white;
-    border: 1px solid #dee2e6;
-    border-radius: 4px;
-}
-
-@media print {
-    .form-section {
-        display: none;
+@media screen and (max-width: 768px) {
+    .flex-container {
+        flex-direction: column;
     }
 }
