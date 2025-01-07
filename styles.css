@@ -162,3 +162,50 @@ button:hover {
         flex-direction: column;
     }
 }
+.saved-clients-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px 0;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+}
+
+.saved-client-item {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 10px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.saved-client-item:hover {
+    background-color: #dee2e6;
+}
+
+.client-name {
+    margin-right: 5px;
+}
+
+.delete-client {
+    visibility: hidden;
+    opacity: 0;
+    color: #dc3545;
+    margin-left: 5px;
+    font-weight: bold;
+    font-size: 1.2em;
+    transition: all 0.3s ease;
+}
+
+.saved-client-item:hover .delete-client {
+    visibility: visible;
+    opacity: 1;
+}
+
+.delete-client:hover {
+    color: #c82333;
+}
