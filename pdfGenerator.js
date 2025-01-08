@@ -62,6 +62,9 @@ class PDFGenerator {
                 'FAST'
             );
 
+            // Sauvegarder dans l'historique
+            window.invoiceHistory.saveInvoice(formData, items, taxes);
+
             pdf.save(`facture-${formData.invoiceNumber}.pdf`);
             
             preview.style.display = 'none';
@@ -73,6 +76,8 @@ class PDFGenerator {
             return false;
         }
     }
+
+    
 
     static generateHTML(formData, items, taxes) {
         // Correction pour la date : on ajuste la date pour compenser le décalage horaire
