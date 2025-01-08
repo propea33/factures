@@ -1,6 +1,8 @@
+// itemManager.js
 class ItemManager {
     constructor() {
         this.container = document.getElementById('itemsContainer');
+        this.savedItemsManager = new SavedItemsManager();
         this.addInitialRow();
         this.setupEventListeners();
     }
@@ -9,18 +11,16 @@ class ItemManager {
         this.addNewRow();
     }
 
-    createItemRow() {
+    createItemRow(itemData = null) {
         const row = document.createElement('div');
         row.className = 'item-row';
         
-        // Description en haut
         const descriptionInput = document.createElement('input');
         descriptionInput.type = 'text';
         descriptionInput.className = 'item-description';
         descriptionInput.placeholder = 'Description';
         descriptionInput.required = true;
         
-        // Container pour les autres champs
         const detailsContainer = document.createElement('div');
         detailsContainer.className = 'item-details';
         
@@ -31,10 +31,17 @@ class ItemManager {
             <button type="button" class="remove-item">×</button>
         `;
         
+        if (itemData) {
+            descriptionInput.value = itemData.description;
+            detailsContainer.querySelector('.item-rate').value = itemData.rate;
+            detailsContainer.querySelector('.item-quantity').value = itemData.quantity || 1;
+        }
+        
         row.appendChild(descriptionInput);
         row.appendChild(detailsContainer);
 
         this.setupRowCalculation(row);
+        this.setupRowSaving(row);
         return row;
     }
 
@@ -53,8 +60,29 @@ class ItemManager {
         quantityInput.addEventListener('input', calculateAmount);
     }
 
+    setupRowSaving(row) {
+        const descriptionInput = row.querySelector('.item-description');
+        const rateInput = row.querySelector('.item-rate');
+        
+        const saveItem = () => {
+            if (descriptionInput.value && rateInput.value) {
+                this.savedItemsManager.saveItem({
+                    description: descriptionInput.value,
+                    rate: parseFloat(rateInput.value)
+                });
+            }
+        };
+
+        descriptionInput.addEventListener('blur', saveItem);
+        rateInput.addEventListener('blur', saveItem);
+    }
+
     addNewRow() {
         this.container.appendChild(this.createItemRow());
+    }
+
+    addNewRowWithData(itemData) {
+        this.container.appendChild(this.createItemRow(itemData));
     }
 
     setupEventListeners() {
