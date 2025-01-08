@@ -6,22 +6,41 @@ class InvoiceHistory {
     }
 
     setupHistoryButton() {
+        // Modification du titre pour qu'il soit à gauche
+        const titleContainer = document.createElement('div');
+        titleContainer.style.display = 'flex';
+        titleContainer.style.alignItems = 'center';
+        titleContainer.style.gap = '20px';
+        titleContainer.style.marginBottom = '30px';
+
         const title = document.querySelector('h1');
-        title.style.marginRight = 'auto';
+        title.style.margin = '0';
+        title.style.textAlign = 'left';
         
+        // Retirer le titre de son emplacement actuel
+        const originalTitle = title.cloneNode(true);
+        title.remove();
+        
+        // Créer le bouton historique
         const historyButton = document.createElement('button');
         historyButton.textContent = 'Historique';
         historyButton.className = 'history-button';
-        historyButton.onclick = () => this.showHistory();
         
-        title.parentNode.insertBefore(historyButton, title.nextSibling);
+        // Ajouter les éléments dans le container
+        titleContainer.appendChild(originalTitle);
+        titleContainer.appendChild(historyButton);
+        
+        // Insérer le container au début du .container
+        const container = document.querySelector('.container');
+        container.insertBefore(titleContainer, container.firstChild);
+        
+        // Ajouter l'événement au bouton
+        historyButton.addEventListener('click', () => this.showHistory());
     }
 
     setupHistoryModal() {
         const modal = document.createElement('div');
         modal.className = 'history-modal';
-        modal.style.display = 'none';
-        
         modal.innerHTML = `
             <div class="history-modal-content">
                 <div class="history-modal-header">
@@ -45,8 +64,10 @@ class InvoiceHistory {
         
         document.body.appendChild(modal);
         
-        // Fermeture du modal
-        modal.querySelector('.close-modal').onclick = () => modal.style.display = 'none';
+        // Gérer la fermeture du modal
+        const closeBtn = modal.querySelector('.close-modal');
+        closeBtn.onclick = () => modal.style.display = 'none';
+        
         window.onclick = (event) => {
             if (event.target === modal) {
                 modal.style.display = 'none';
@@ -73,12 +94,22 @@ class InvoiceHistory {
     }
 
     deleteInvoice(invoiceNumber) {
-        const invoices = this.getInvoices();
-        const updatedInvoices = invoices.filter(
-            invoice => invoice.formData.invoiceNumber !== invoiceNumber
-        );
-        localStorage.setItem(this.storageKey, JSON.stringify(updatedInvoices));
-        this.showHistory(); // Rafraîchir l'affichage
+        if (confirm('Êtes-vous sûr de vouloir supprimer cette facture ?')) {
+            const invoices = this.getInvoices();
+            const updatedInvoices = invoices.filter(
+                invoice => invoice.formData.invoiceNumber !== invoiceNumber
+            );
+            localStorage.setItem(this.storageKey, JSON.stringify(updatedInvoices));
+            this.showHistory(); // Rafraîchir l'affichage
+        }
+    }
+
+    async regenerateInvoice(invoice) {
+        try {
+            await PDFGenerator.generatePDF(invoice.formData, invoice.items, invoice.taxes);
+        } catch (error) {
+            console.error('Erreur lors de la régénération de la facture:', error);
+        }
     }
 
     showHistory() {
@@ -91,29 +122,28 @@ class InvoiceHistory {
                 <td>${invoice.formData.invoiceNumber}</td>
                 <td>${invoice.taxes.total.toFixed(2)} $</td>
                 <td class="action-buttons">
-                    <button class="preview-btn" data-invoice-number="${invoice.formData.invoiceNumber}">
+                    <button class="preview-btn" data-invoice="${invoice.formData.invoiceNumber}">
                         Aperçu
                     </button>
-                    <button class="download-btn" data-invoice-number="${invoice.formData.invoiceNumber}">
+                    <button class="download-btn" data-invoice="${invoice.formData.invoiceNumber}">
                         Download
                     </button>
-                    <button class="delete-btn" data-invoice-number="${invoice.formData.invoiceNumber}">
+                    <button class="delete-btn" data-invoice="${invoice.formData.invoiceNumber}">
                         ×
                     </button>
                 </td>
             </tr>
         `).join('');
         
-        // Ajouter les événements aux boutons
         this.setupHistoryEvents(tbody);
-        
         modal.style.display = 'block';
     }
 
     setupHistoryEvents(tbody) {
+        // Gérer le bouton Aperçu
         tbody.querySelectorAll('.preview-btn').forEach(btn => {
             btn.onclick = () => {
-                const invoiceNumber = btn.dataset.invoiceNumber;
+                const invoiceNumber = btn.dataset.invoice;
                 const invoice = this.getInvoices().find(
                     inv => inv.formData.invoiceNumber === invoiceNumber
                 );
@@ -124,24 +154,24 @@ class InvoiceHistory {
             };
         });
 
+        // Gérer le bouton Download
         tbody.querySelectorAll('.download-btn').forEach(btn => {
-            btn.onclick = async () => {
-                const invoiceNumber = btn.dataset.invoiceNumber;
+            btn.onclick = () => {
+                const invoiceNumber = btn.dataset.invoice;
                 const invoice = this.getInvoices().find(
                     inv => inv.formData.invoiceNumber === invoiceNumber
                 );
                 if (invoice) {
-                    await PDFGenerator.generatePDF(invoice.formData, invoice.items, invoice.taxes);
+                    this.regenerateInvoice(invoice);
                 }
             };
         });
 
+        // Gérer le bouton Supprimer
         tbody.querySelectorAll('.delete-btn').forEach(btn => {
             btn.onclick = () => {
-                const invoiceNumber = btn.dataset.invoiceNumber;
-                if (confirm('Êtes-vous sûr de vouloir supprimer cette facture ?')) {
-                    this.deleteInvoice(invoiceNumber);
-                }
+                const invoiceNumber = btn.dataset.invoice;
+                this.deleteInvoice(invoiceNumber);
             };
         });
     }
