@@ -1,22 +1,33 @@
 document.addEventListener('DOMContentLoaded', function() {
-    
     window.invoiceHistory = new InvoiceHistory();
     const itemManager = new ItemManager();
     const clientStorage = new ClientStorage();
+    const savedItemsManager = new SavedItemsManager();
     const form = document.getElementById('invoiceForm');
 
     // Set default date to today
     document.getElementById('invoiceDate').valueAsDate = new Date();
     
-    // Generate default invoice number (INVyyyyMMddxxx)
-    const today = new Date();
-    const defaultInvoiceNumber = `INV${today.getFullYear()}${String(today.getMonth() + 1).padStart(2, '0')}${String(today.getDate()).padStart(2, '0')}001`;
-    document.getElementById('invoiceNumber').value = defaultInvoiceNumber;
+    // Get last invoice number from localStorage
+    const getLastInvoiceNumber = () => {
+        const invoices = JSON.parse(localStorage.getItem('invoiceHistory') || '[]');
+        if (invoices.length === 0) {
+            const today = new Date();
+            return `INV${today.getFullYear()}${String(today.getMonth() + 1).padStart(2, '0')}${String(today.getDate()).padStart(2, '0')}001`;
+        }
+        
+        const lastInvoice = invoices[invoices.length - 1];
+        const lastNumber = parseInt(lastInvoice.formData.invoiceNumber.slice(-3));
+        const today = new Date();
+        return `INV${today.getFullYear()}${String(today.getMonth() + 1).padStart(2, '0')}${String(today.getDate()).padStart(2, '0')}${String(lastNumber + 1).padStart(3, '0')}`;
+    };
+
+    document.getElementById('invoiceNumber').value = getLastInvoiceNumber();
 
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
 
-        // Collecter toutes les données du formulaire
+        // Collect form data
         const formData = {
             businessName: document.getElementById('businessName').value,
             businessEmail: document.getElementById('businessEmail').value,
@@ -32,11 +43,10 @@ document.addEventListener('DOMContentLoaded', function() {
             invoiceDate: document.getElementById('invoiceDate').value
         };
 
-        // Sauvegarder le client seulement s'il y a un nom
         if (formData.clientName.trim() !== '') {
             const clientData = {
                 clientName: formData.clientName,
-                clientEmail: formData.clientEmail,
+                clientEmail: form.clientEmail,
                 clientAddress: formData.clientAddress,
                 clientPhone: formData.clientPhone,
                 businessName: formData.businessName,
@@ -55,6 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         try {
             await PDFGenerator.generatePDF(formData, items, taxes);
+            document.getElementById('invoiceNumber').value = getLastInvoiceNumber();
         } catch (error) {
             console.error('Erreur lors de la génération de la facture:', error);
         }
@@ -83,56 +94,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         PDFGenerator.showPreview(formData, items, taxes);
     });
-
-    // Validation functions
-    function validatePhoneNumber(phone) {
-        const phoneRegex = /^[\d\s\-()]+$/;
-        return phoneRegex.test(phone);
-    }
-
-    function validateEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    }
-
-    // Add input validation listeners
-    const phoneInputs = document.querySelectorAll('input[type="tel"]');
-    phoneInputs.forEach(input => {
-        input.addEventListener('input', function() {
-            if (this.value && !validatePhoneNumber(this.value)) {
-                this.setCustomValidity('Veuillez entrer un numéro de téléphone valide');
-            } else {
-                this.setCustomValidity('');
-            }
-        });
-    });
-
-    const emailInputs = document.querySelectorAll('input[type="email"]');
-    emailInputs.forEach(input => {
-        input.addEventListener('input', function() {
-            if (this.value && !validateEmail(this.value)) {
-                this.setCustomValidity('Veuillez entrer une adresse courriel valide');
-            } else {
-                this.setCustomValidity('');
-            }
-        });
-    });
-
-    // Format phone numbers
-    function formatPhoneNumber(phone) {
-        const cleaned = phone.replace(/\D/g, '');
-        const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
-        if (match) {
-            return '(' + match[1] + ') ' + match[2] + '-' + match[3];
-        }
-        return phone;
-    }
-
-    phoneInputs.forEach(input => {
-        input.addEventListener('blur', function() {
-            if (this.value.length >= 10) {
-                this.value = formatPhoneNumber(this.value);
-            }
-        });
-    });
 });
+
+
