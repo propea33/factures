@@ -1,78 +1,88 @@
+// invoiceHistory.js
 class InvoiceHistory {
     constructor() {
         this.storageKey = 'invoiceHistory';
-        this.setupHistoryButton();
+        
+        // Attendre que le DOM soit complètement chargé
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => this.init());
+        } else {
+            this.init();
+        }
+    }
+
+    init() {
+        this.setupLayout();
         this.setupHistoryModal();
     }
 
-    setupHistoryButton() {
-        // Modification du titre pour qu'il soit à gauche
-        const titleContainer = document.createElement('div');
-        titleContainer.style.display = 'flex';
-        titleContainer.style.alignItems = 'center';
-        titleContainer.style.gap = '20px';
-        titleContainer.style.marginBottom = '30px';
-
-        const title = document.querySelector('h1');
-        title.style.margin = '0';
-        title.style.textAlign = 'left';
+    setupLayout() {
+        // 1. Trouver le container et le titre existant
+        const container = document.querySelector('.container');
+        const existingTitle = container.querySelector('h1');
         
-        // Retirer le titre de son emplacement actuel
-        const originalTitle = title.cloneNode(true);
-        title.remove();
+        // 2. Créer le nouveau header container
+        const headerContainer = document.createElement('div');
+        headerContainer.style.display = 'flex';
+        headerContainer.style.alignItems = 'center';
+        headerContainer.style.justifyContent = 'space-between';
+        headerContainer.style.width = '100%';
+        headerContainer.style.marginBottom = '30px';
         
-        // Créer le bouton historique
+        // 3. Déplacer le titre existant dans le header container
+        if (existingTitle) {
+            existingTitle.style.margin = '0';
+            existingTitle.style.textAlign = 'left';
+            headerContainer.appendChild(existingTitle);
+        }
+        
+        // 4. Créer et ajouter le bouton historique
         const historyButton = document.createElement('button');
         historyButton.textContent = 'Historique';
         historyButton.className = 'history-button';
-        
-        // Ajouter les éléments dans le container
-        titleContainer.appendChild(originalTitle);
-        titleContainer.appendChild(historyButton);
-        
-        // Insérer le container au début du .container
-        const container = document.querySelector('.container');
-        container.insertBefore(titleContainer, container.firstChild);
-        
-        // Ajouter l'événement au bouton
         historyButton.addEventListener('click', () => this.showHistory());
+        headerContainer.appendChild(historyButton);
+        
+        // 5. Insérer le header container au début du container principal
+        container.insertBefore(headerContainer, container.firstChild);
     }
 
     setupHistoryModal() {
-        const modal = document.createElement('div');
-        modal.className = 'history-modal';
-        modal.innerHTML = `
-            <div class="history-modal-content">
-                <div class="history-modal-header">
-                    <h2>Historique des factures</h2>
-                    <span class="close-modal">&times;</span>
+        // Créer le modal s'il n'existe pas déjà
+        if (!document.querySelector('.history-modal')) {
+            const modal = document.createElement('div');
+            modal.className = 'history-modal';
+            modal.innerHTML = `
+                <div class="history-modal-content">
+                    <div class="history-modal-header">
+                        <h2>Historique des factures</h2>
+                        <span class="close-modal">&times;</span>
+                    </div>
+                    <div class="history-table-container">
+                        <table class="history-table">
+                            <thead>
+                                <tr>
+                                    <th>Numéro de facture</th>
+                                    <th>Montant</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
                 </div>
-                <div class="history-table-container">
-                    <table class="history-table">
-                        <thead>
-                            <tr>
-                                <th>Numéro de facture</th>
-                                <th>Montant</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
-        `;
-        
-        document.body.appendChild(modal);
-        
-        // Gérer la fermeture du modal
-        const closeBtn = modal.querySelector('.close-modal');
-        closeBtn.onclick = () => modal.style.display = 'none';
-        
-        window.onclick = (event) => {
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
-        };
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Gestionnaire pour fermer le modal
+            modal.querySelector('.close-modal').onclick = () => modal.style.display = 'none';
+            window.onclick = (event) => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            };
+        }
     }
 
     saveInvoice(formData, items, taxes) {
@@ -100,15 +110,7 @@ class InvoiceHistory {
                 invoice => invoice.formData.invoiceNumber !== invoiceNumber
             );
             localStorage.setItem(this.storageKey, JSON.stringify(updatedInvoices));
-            this.showHistory(); // Rafraîchir l'affichage
-        }
-    }
-
-    async regenerateInvoice(invoice) {
-        try {
-            await PDFGenerator.generatePDF(invoice.formData, invoice.items, invoice.taxes);
-        } catch (error) {
-            console.error('Erreur lors de la régénération de la facture:', error);
+            this.showHistory();
         }
     }
 
@@ -140,7 +142,7 @@ class InvoiceHistory {
     }
 
     setupHistoryEvents(tbody) {
-        // Gérer le bouton Aperçu
+        // Aperçu
         tbody.querySelectorAll('.preview-btn').forEach(btn => {
             btn.onclick = () => {
                 const invoiceNumber = btn.dataset.invoice;
@@ -154,7 +156,7 @@ class InvoiceHistory {
             };
         });
 
-        // Gérer le bouton Download
+        // Download
         tbody.querySelectorAll('.download-btn').forEach(btn => {
             btn.onclick = () => {
                 const invoiceNumber = btn.dataset.invoice;
@@ -162,12 +164,12 @@ class InvoiceHistory {
                     inv => inv.formData.invoiceNumber === invoiceNumber
                 );
                 if (invoice) {
-                    this.regenerateInvoice(invoice);
+                    PDFGenerator.generatePDF(invoice.formData, invoice.items, invoice.taxes);
                 }
             };
         });
 
-        // Gérer le bouton Supprimer
+        // Delete
         tbody.querySelectorAll('.delete-btn').forEach(btn => {
             btn.onclick = () => {
                 const invoiceNumber = btn.dataset.invoice;
@@ -176,3 +178,6 @@ class InvoiceHistory {
         });
     }
 }
+
+// Créer l'instance
+window.invoiceHistory = new InvoiceHistory();
