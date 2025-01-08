@@ -322,3 +322,7 @@ button:hover {
         flex-direction: column;
     }
 }
+
+.saved-items-list {
+    margin-bottom: 20px !important;
+}
