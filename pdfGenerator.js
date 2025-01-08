@@ -75,6 +75,16 @@ class PDFGenerator {
     }
 
     static generateHTML(formData, items, taxes) {
+        // Correction pour la date : on crée un objet Date avec la valeur UTC
+        const invoiceDate = formData.invoiceDate ? new Date(formData.invoiceDate + 'T00:00:00Z') : null;
+        // On utilise toLocaleDateString avec les options appropriées
+        const formattedDate = invoiceDate ? invoiceDate.toLocaleDateString('fr-CA', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            timeZone: 'UTC'
+        }) : '';
+
         return `
             <div class="invoice-preview">
                 <table style="width: 100%; margin-bottom: 30px; border: none;">
@@ -90,7 +100,7 @@ class PDFGenerator {
                         <td style="border: none; width: 50%; text-align: right; vertical-align: top;">
                             <h1 style="margin: 0; color: #2c3e50;">FACTURE</h1>
                             <p style="margin: 5px 0;">Numéro: ${formData.invoiceNumber || ''}</p>
-                            <p style="margin: 5px 0;">Date: ${formData.invoiceDate ? new Date(formData.invoiceDate).toLocaleDateString() : ''}</p>
+                            <p style="margin: 5px 0;">Date: ${formattedDate}</p>
                         </td>
                     </tr>
                 </table>
