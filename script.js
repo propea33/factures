@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
+    
+    window.invoiceHistory = new InvoiceHistory();
     const itemManager = new ItemManager();
     const clientStorage = new ClientStorage();
     const form = document.getElementById('invoiceForm');
