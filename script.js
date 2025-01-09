@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', function() {
     window.invoiceHistory = new InvoiceHistory();
     const itemManager = new ItemManager();
     const clientStorage = new ClientStorage();
-    const savedItemsManager = new SavedItemsManager();
     const form = document.getElementById('invoiceForm');
 
     // Set default date to today
@@ -44,19 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 
         if (formData.clientName.trim() !== '') {
-            const clientData = {
-                clientName: formData.clientName,
-                clientEmail: form.clientEmail,
-                clientAddress: formData.clientAddress,
-                clientPhone: formData.clientPhone,
-                businessName: formData.businessName,
-                businessEmail: formData.businessEmail,
-                businessAddress: formData.businessAddress,
-                businessPhone: formData.businessPhone,
-                gstNumber: formData.gstNumber,
-                qstNumber: formData.qstNumber
-            };
-            clientStorage.saveClient(clientData);
+            clientStorage.saveClient(formData);
         }
 
         const items = itemManager.getItems();
@@ -64,8 +51,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const taxes = TaxCalculator.calculateTaxes(subtotal);
 
         try {
-            await PDFGenerator.generatePDF(formData, items, taxes);
-            document.getElementById('invoiceNumber').value = getLastInvoiceNumber();
+            const success = await PDFGenerator.generatePDF(formData, items, taxes);
+            if (success) {
+                // Sauvegarder les items seulement après génération réussie de la facture
+                itemManager.saveItems();
+                document.getElementById('invoiceNumber').value = getLastInvoiceNumber();
+            }
         } catch (error) {
             console.error('Erreur lors de la génération de la facture:', error);
         }
@@ -95,5 +86,3 @@ document.addEventListener('DOMContentLoaded', function() {
         PDFGenerator.showPreview(formData, items, taxes);
     });
 });
-
-
