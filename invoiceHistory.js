@@ -1,9 +1,7 @@
-// invoiceHistory.js
 class InvoiceHistory {
     constructor() {
         this.storageKey = 'invoiceHistory';
         
-        // Attendre que le DOM soit complètement chargé
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => this.init());
         } else {
@@ -12,43 +10,10 @@ class InvoiceHistory {
     }
 
     init() {
-        this.setupLayout();
         this.setupHistoryModal();
     }
 
-    setupLayout() {
-        // 1. Trouver le container et le titre existant
-        const container = document.querySelector('.container');
-        const existingTitle = container.querySelector('h1');
-        
-        // 2. Créer le nouveau header container
-        const headerContainer = document.createElement('div');
-        headerContainer.style.display = 'flex';
-        headerContainer.style.alignItems = 'center';
-        headerContainer.style.justifyContent = 'space-between';
-        headerContainer.style.width = '100%';
-        headerContainer.style.marginBottom = '30px';
-        
-        // 3. Déplacer le titre existant dans le header container
-        if (existingTitle) {
-            existingTitle.style.margin = '0';
-            existingTitle.style.textAlign = 'left';
-            headerContainer.appendChild(existingTitle);
-        }
-        
-        // 4. Créer et ajouter le bouton historique
-        const historyButton = document.createElement('button');
-        historyButton.textContent = 'Historique';
-        historyButton.className = 'history-button';
-        historyButton.addEventListener('click', () => this.showHistory());
-        headerContainer.appendChild(historyButton);
-        
-        // 5. Insérer le header container au début du container principal
-        container.insertBefore(headerContainer, container.firstChild);
-    }
-
     setupHistoryModal() {
-        // Créer le modal s'il n'existe pas déjà
         if (!document.querySelector('.history-modal')) {
             const modal = document.createElement('div');
             modal.className = 'history-modal';
@@ -75,7 +40,6 @@ class InvoiceHistory {
             
             document.body.appendChild(modal);
             
-            // Gestionnaire pour fermer le modal
             modal.querySelector('.close-modal').onclick = () => modal.style.display = 'none';
             window.onclick = (event) => {
                 if (event.target === modal) {
