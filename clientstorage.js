@@ -4,12 +4,10 @@ class ClientStorage {
         this.clientListContainer = document.createElement('div');
         this.clientListContainer.id = 'savedClientsList';
         this.clientListContainer.className = 'saved-clients-list';
-        this.setupClientList();
-    }
-
-    setupClientList() {
-        const title = document.querySelector('h1');
-        title.parentNode.insertBefore(this.clientListContainer, title.nextSibling);
+        const clientSection = document.querySelector('#clientsContainer');
+        if (clientSection) {
+            clientSection.parentNode.insertBefore(this.clientListContainer, clientSection);
+        }
         this.renderClientList();
     }
 

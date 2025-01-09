@@ -43,17 +43,6 @@ class ItemManager {
         return row;
     }
 
-    findExistingItem(description) {
-        const rows = this.container.querySelectorAll('.item-row');
-        for (let row of rows) {
-            const descInput = row.querySelector('.item-description');
-            if (descInput.value === description) {
-                return row;
-            }
-        }
-        return null;
-    }
-
     setupRowCalculation(row) {
         const rateInput = row.querySelector('.item-rate');
         const quantityInput = row.querySelector('.item-quantity');
@@ -75,19 +64,13 @@ class ItemManager {
     }
 
     addNewRowWithData(itemData) {
-        const existingRow = this.findExistingItem(itemData.description);
+        const row = this.createItemRow(itemData);
+        this.container.appendChild(row);
         
-        if (existingRow) {
-            // Incrémenter la quantité si l'item existe déjà
-            const quantityInput = existingRow.querySelector('.item-quantity');
-            quantityInput.value = parseInt(quantityInput.value) + 1;
-            // Recalculer le montant
-            const event = new Event('input');
-            quantityInput.dispatchEvent(event);
-        } else {
-            // Créer une nouvelle ligne si l'item n'existe pas
-            this.container.appendChild(this.createItemRow(itemData));
-        }
+        // Recalculer le montant
+        const quantityInput = row.querySelector('.item-quantity');
+        const event = new Event('input');
+        quantityInput.dispatchEvent(event);
     }
 
     setupEventListeners() {
