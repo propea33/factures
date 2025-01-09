@@ -1,105 +1,124 @@
-<!DOCTYPE html>
-<html lang="fr">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Générateur de facture</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2487.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Générateur de facture</h1>
-        
-        <form id="invoiceForm">
-            <div class="flex-container">
-                <section class="form-section flex-item">
-                    <h2>Information de l'entreprise</h2>
-                    <div class="form-group">
-                        <label for="businessName">Nom de l'entreprise</label>
-                        <input type="text" id="businessName">
-                    </div>
-                    <div class="form-group">
-                        <label for="businessEmail">Courriel</label>
-                        <input type="email" id="businessEmail">
-                    </div>
-                    <div class="form-group">
-                        <label for="businessAddress">Adresse</label>
-                        <input type="text" id="businessAddress">
-                    </div>
-                    <div class="form-group">
-                        <label for="businessPhone">Téléphone</label>
-                        <input type="tel" id="businessPhone">
-                    </div>
-                    <div class="form-group">
-                        <label for="gstNumber">Numéro GST</label>
-                        <input type="text" id="gstNumber">
-                    </div>
-                    <div class="form-group">
-                        <label for="qstNumber">Numéro QST</label>
-                        <input type="text" id="qstNumber">
-                    </div>
-                </section>
-
-                <section class="form-section flex-item">
-                    <h2>Information du client</h2>
-                    <div class="form-group">
-                        <label for="clientName">Nom du client</label>
-                        <input type="text" id="clientName">
-                    </div>
-                    <div class="form-group">
-                        <label for="clientEmail">Courriel</label>
-                        <input type="email" id="clientEmail">
-                    </div>
-                    <div class="form-group">
-                        <label for="clientAddress">Adresse</label>
-                        <input type="text" id="clientAddress">
-                    </div>
-                    <div class="form-group">
-                        <label for="clientPhone">Téléphone</label>
-                        <input type="tel" id="clientPhone">
-                    </div>
-                </section>
-            </div>
-
-            <div class="flex-container">
-                <section class="form-section flex-item">
-                    <h2>Détails de la facture</h2>
-                    <div class="form-group">
-                        <label for="invoiceNumber">Numéro de facture</label>
-                        <input type="text" id="invoiceNumber">
-                    </div>
-                    <div class="form-group">
-                        <label for="invoiceDate">Date</label>
-                        <input type="date" id="invoiceDate">
-                    </div>
-                </section>
-
-                <section class="form-section flex-item">
-                    <h2>Items</h2>
-                    <div id="itemsContainer">
-                        <!-- Les items seront ajoutés ici -->
-                    </div>
-                    <button type="button" id="addItem">Ajouter un item</button>
-                </section>
-            </div>
-
-            <div class="button-group">
-                <button type="button" id="previewInvoice">Aperçu</button>
-                <button type="submit" id="generateInvoice">Générer la facture</button>
-            </div>
-        </form>
-
-        <div id="preview" style="display: none;"></div>
-    </div>
-
-  <script src="taxCalculator.js"></script>
-<script src="clientstorage.js"></script>
-<script src="itemManager.js"></script>
-<script src="pdfGenerator.js"></script>
-<script src="invoiceHistory.js"></script>
-<script src="savedItemsManager.js"></script>
-<script src="script.js"></script>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="fr"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;Générateur de facture&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;link rel="stylesheet" href="styles.css"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"&gt;&lt;/script&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">       </span>&lt;div class="header-section"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h1&gt;Générateur de facture&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button type="button" id="historyButton" class="history-button"&gt;Historique&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;form id="invoiceForm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="flex-container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;section class="form-section flex-item"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h2&gt;Information de l'entreprise&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;label for="businessName"&gt;Nom de l'entreprise&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;input type="text" id="businessName"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;label for="businessEmail"&gt;Courriel&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;input type="email" id="businessEmail"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;label for="businessAddress"&gt;Adresse&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;input type="text" id="businessAddress"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;label for="businessPhone"&gt;Téléphone&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;input type="tel" id="businessPhone"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;label for="gstNumber"&gt;Numéro GST&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;input type="text" id="gstNumber"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;label for="qstNumber"&gt;Numéro QST&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;input type="text" id="qstNumber"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;section class="form-section flex-item"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h2&gt;Information du client&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;label for="clientName"&gt;Nom du client&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;input type="text" id="clientName"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;label for="clientEmail"&gt;Courriel&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;input type="email" id="clientEmail"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;label for="clientAddress"&gt;Adresse&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;input type="text" id="clientAddress"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;label for="clientPhone"&gt;Téléphone&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;input type="tel" id="clientPhone"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/section&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="flex-container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;section class="form-section flex-item"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h2&gt;Détails de la facture&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;label for="invoiceNumber"&gt;Numéro de facture&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;input type="text" id="invoiceNumber"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;label for="invoiceDate"&gt;Date&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;input type="date" id="invoiceDate"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;section class="form-section flex-item"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h2&gt;Items&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div id="itemsContainer"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;!-- Les items seront ajoutés ici --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;button type="button" id="addItem"&gt;Ajouter un item&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/section&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="button-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;button type="button" id="previewInvoice"&gt;Aperçu&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;button type="submit" id="generateInvoice"&gt;Générer la facture&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/form&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="preview" style="display: none;"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script src="taxCalculator.js"&gt;&lt;/script&gt;</p>
+<p class="p1">&lt;script src="clientstorage.js"&gt;&lt;/script&gt;</p>
+<p class="p1">&lt;script src="itemManager.js"&gt;&lt;/script&gt;</p>
+<p class="p1">&lt;script src="pdfGenerator.js"&gt;&lt;/script&gt;</p>
+<p class="p1">&lt;script src="invoiceHistory.js"&gt;&lt;/script&gt;</p>
+<p class="p1">&lt;script src="savedItemsManager.js"&gt;&lt;/script&gt;</p>
+<p class="p1">&lt;script src="script.js"&gt;&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
 </body>
 </html>
