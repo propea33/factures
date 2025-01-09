@@ -41,7 +41,6 @@ class ItemManager {
         row.appendChild(detailsContainer);
 
         this.setupRowCalculation(row);
-        this.setupRowSaving(row);
         return row;
     }
 
@@ -58,23 +57,6 @@ class ItemManager {
 
         rateInput.addEventListener('input', calculateAmount);
         quantityInput.addEventListener('input', calculateAmount);
-    }
-
-    setupRowSaving(row) {
-        const descriptionInput = row.querySelector('.item-description');
-        const rateInput = row.querySelector('.item-rate');
-        
-        const saveItem = () => {
-            if (descriptionInput.value && rateInput.value) {
-                this.savedItemsManager.saveItem({
-                    description: descriptionInput.value,
-                    rate: parseFloat(rateInput.value)
-                });
-            }
-        };
-
-        descriptionInput.addEventListener('blur', saveItem);
-        rateInput.addEventListener('blur', saveItem);
     }
 
     addNewRow() {
@@ -107,5 +89,17 @@ class ItemManager {
             });
         });
         return items;
+    }
+
+    saveItems() {
+        const items = this.getItems();
+        items.forEach(item => {
+            if (item.description && item.rate) {
+                this.savedItemsManager.saveItem({
+                    description: item.description,
+                    rate: item.rate
+                });
+            }
+        });
     }
 }
