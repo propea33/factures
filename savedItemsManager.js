@@ -41,14 +41,15 @@ class SavedItemsManager {
     }
 
     renderItemsList() {
+        this.itemListContainer.innerHTML = '';  // Vider le conteneur avant de le remplir
         const items = this.getSavedItems();
-        this.itemListContainer.innerHTML = items.map(item => `
+        const itemsHtml = items.map(item => `
             <div class="saved-client-item">
                 <span class="client-name">${item.description} - ${item.rate}$</span>
                 <span class="delete-client">×</span>
             </div>
         `).join('');
-
+        this.itemListContainer.innerHTML = itemsHtml;
         this.setupItemEvents();
     }
 
@@ -63,14 +64,8 @@ class SavedItemsManager {
             item.querySelector('.client-name').addEventListener('click', () => {
                 const savedItem = this.getSavedItems().find(i => i.description === description);
                 if (savedItem) {
-                    // Remplir les champs du premier item dans le formulaire
-                    const firstItemRow = document.querySelector('.item-row');
-                    if (firstItemRow) {
-                        firstItemRow.querySelector('.item-description').value = savedItem.description;
-                        firstItemRow.querySelector('.item-rate').value = savedItem.rate;
-                        // Déclencher l'événement input pour mettre à jour le montant
-                        firstItemRow.querySelector('.item-rate').dispatchEvent(new Event('input'));
-                    }
+                    const itemManager = new ItemManager();
+                    itemManager.addNewRowWithData(savedItem);
                 }
             });
 
