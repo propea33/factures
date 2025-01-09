@@ -61,9 +61,16 @@ class SavedItemsManager {
             const deleteBtn = item.querySelector('.delete-client');
 
             item.querySelector('.client-name').addEventListener('click', () => {
-                const item = this.getSavedItems().find(i => i.description === description);
-                if (item) {
-                    this.loadItemData(item);
+                const savedItem = this.getSavedItems().find(i => i.description === description);
+                if (savedItem) {
+                    // Remplir les champs du premier item dans le formulaire
+                    const firstItemRow = document.querySelector('.item-row');
+                    if (firstItemRow) {
+                        firstItemRow.querySelector('.item-description').value = savedItem.description;
+                        firstItemRow.querySelector('.item-rate').value = savedItem.rate;
+                        // Déclencher l'événement input pour mettre à jour le montant
+                        firstItemRow.querySelector('.item-rate').dispatchEvent(new Event('input'));
+                    }
                 }
             });
 
@@ -74,10 +81,5 @@ class SavedItemsManager {
                 }
             });
         });
-    }
-
-    loadItemData(itemData) {
-        const itemManager = new ItemManager();
-        itemManager.addNewRowWithData(itemData);
     }
 }
