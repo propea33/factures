@@ -9,12 +9,27 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <div class="header-section">
-            <h1>Générateur de facture</h1> 
-            <button type="button" id="historyButton" class="history-button">Historique</button>
+    <!-- Nouveau menu latéral -->
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-content">
+            <button id="historyButton" class="sidebar-button">Historique</button>
+            <div class="sidebar-divider"></div>
+            <div class="sidebar-section">
+                <h3>Clients sauvegardés</h3>
+                <div id="savedClientsList" class="saved-clients-list"></div>
+            </div>
         </div>
-        <form id="invoiceForm">
+    </div>
+
+    <div class="main-content">
+        <!-- Nouvelle barre de navigation -->
+        <div class="navbar">
+            <button id="toggleSidebar" class="toggle-sidebar">☰</button>
+            <h1>Générateur de facture</h1>
+        </div>
+
+        <div class="container">
+            <form id="invoiceForm">
             <div class="flex-container">
                 <section class="form-section flex-item">
                     <h2>Information de l'entreprise</h2>
