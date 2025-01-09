@@ -1,24 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Configuration du menu latéral
-    const sidebar = document.getElementById('sidebar');
-    const toggleButton = document.getElementById('toggleSidebar');
-    const mainContent = document.querySelector('.main-content');
-
-    toggleButton.addEventListener('click', function() {
-        sidebar.classList.toggle('open');
-        mainContent.classList.toggle('sidebar-open');
-    });
-
-    // Fermer le menu si on clique en dehors
-    document.addEventListener('click', function(e) {
-        if (!sidebar.contains(e.target) && !toggleButton.contains(e.target) && sidebar.classList.contains('open')) {
-            sidebar.classList.remove('open');
-            mainContent.classList.remove('sidebar-open');
-        }
-    });
-});
-
-document.addEventListener('DOMContentLoaded', function() {
     window.invoiceHistory = new InvoiceHistory();
     const itemManager = new ItemManager();
     const clientStorage = new ClientStorage();
@@ -104,5 +84,23 @@ document.addEventListener('DOMContentLoaded', function() {
         const taxes = TaxCalculator.calculateTaxes(subtotal);
 
         PDFGenerator.showPreview(formData, items, taxes);
+    });
+
+    // Configuration du menu latéral
+    const sidebar = document.getElementById('sidebar');
+    const toggleButton = document.getElementById('toggleSidebar');
+    const mainContent = document.querySelector('.main-content');
+
+    toggleButton.addEventListener('click', function() {
+        sidebar.classList.toggle('open');
+        mainContent.classList.toggle('sidebar-open');
+    });
+
+    // Fermer le menu si on clique en dehors
+    document.addEventListener('click', function(e) {
+        if (!sidebar.contains(e.target) && !toggleButton.contains(e.target) && sidebar.classList.contains('open')) {
+            sidebar.classList.remove('open');
+            mainContent.classList.remove('sidebar-open');
+        }
     });
 });
