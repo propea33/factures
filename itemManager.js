@@ -1,7 +1,6 @@
 class ItemManager {
     constructor() {
         this.container = document.getElementById('itemsContainer');
-        this.savedItemsManager = new SavedItemsManager();
         this.addInitialRow();
         this.setupEventListeners();
     }
@@ -56,21 +55,11 @@ class ItemManager {
 
         rateInput.addEventListener('input', calculateAmount);
         quantityInput.addEventListener('input', calculateAmount);
-        calculateAmount(); // Calculate initial amount
+        calculateAmount();
     }
 
     addNewRow() {
         this.container.appendChild(this.createItemRow());
-    }
-
-    addNewRowWithData(itemData) {
-        const row = this.createItemRow(itemData);
-        this.container.appendChild(row);
-        
-        // Recalculer le montant
-        const quantityInput = row.querySelector('.item-quantity');
-        const event = new Event('input');
-        quantityInput.dispatchEvent(event);
     }
 
     setupEventListeners() {
@@ -95,17 +84,5 @@ class ItemManager {
             });
         });
         return items;
-    }
-
-    saveItems() {
-        const items = this.getItems();
-        items.forEach(item => {
-            if (item.description && item.rate) {
-                this.savedItemsManager.saveItem({
-                    description: item.description,
-                    rate: item.rate
-                });
-            }
-        });
     }
 }
