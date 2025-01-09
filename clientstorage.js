@@ -1,29 +1,21 @@
 class ClientStorage {
     constructor() {
         this.storageKey = 'savedClients';
-        this.clientListContainer = document.createElement('div');
-        this.clientListContainer.id = 'savedClientsList';
-        this.clientListContainer.className = 'saved-clients-list';
-        const clientSection = document.querySelector('#clientsContainer');
-        if (clientSection) {
-            clientSection.parentNode.insertBefore(this.clientListContainer, clientSection);
+        this.clientListContainer = document.getElementById('savedClientsList');
+        if (this.clientListContainer) {
+            this.renderClientList();
         }
-        this.renderClientList();
     }
 
     saveClient(clientData) {
         const clients = this.getSavedClients();
-        // Utiliser le nom du client comme identifiant unique
         const clientId = clientData.clientName;
         
-        // Vérifier si le client existe déjà
         const existingIndex = clients.findIndex(client => client.clientName === clientId);
         
         if (existingIndex !== -1) {
-            // Mettre à jour le client existant
             clients[existingIndex] = clientData;
         } else {
-            // Ajouter un nouveau client
             clients.push(clientData);
         }
         
@@ -44,6 +36,8 @@ class ClientStorage {
     }
 
     renderClientList() {
+        if (!this.clientListContainer) return;
+        
         const clients = this.getSavedClients();
         this.clientListContainer.innerHTML = clients.map(client => `
             <div class="saved-client-item">
@@ -52,26 +46,28 @@ class ClientStorage {
             </div>
         `).join('');
 
-        // Ajouter les événements pour chaque client
         this.setupClientEvents();
     }
 
     setupClientEvents() {
+        if (!this.clientListContainer) return;
+        
         const clientItems = this.clientListContainer.querySelectorAll('.saved-client-item');
         
         clientItems.forEach(item => {
             const clientName = item.querySelector('.client-name').textContent;
             const deleteBtn = item.querySelector('.delete-client');
 
-            // Événement pour charger les données du client
             item.querySelector('.client-name').addEventListener('click', () => {
                 const client = this.getSavedClients().find(c => c.clientName === clientName);
                 if (client) {
                     this.loadClientData(client);
+                    // Fermer le sidebar après avoir sélectionné un client
+                    document.getElementById('sidebar').classList.remove('open');
+                    document.querySelector('.main-content').classList.remove('sidebar-open');
                 }
             });
 
-            // Événement pour supprimer le client
             deleteBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 if (confirm(`Êtes-vous sûr de vouloir supprimer le client "${clientName}" ?`)) {
@@ -82,28 +78,11 @@ class ClientStorage {
     }
 
     loadClientData(clientData) {
-        // Remplir tous les champs avec les données du client
         Object.keys(clientData).forEach(key => {
             const input = document.getElementById(key);
             if (input) {
                 input.value = clientData[key];
             }
         });
-    }
-
-    getAllClientData() {
-        const formData = {
-            clientName: document.getElementById('clientName').value,
-            clientEmail: document.getElementById('clientEmail').value,
-            clientAddress: document.getElementById('clientAddress').value,
-            clientPhone: document.getElementById('clientPhone').value,
-            businessName: document.getElementById('businessName').value,
-            businessEmail: document.getElementById('businessEmail').value,
-            businessAddress: document.getElementById('businessAddress').value,
-            businessPhone: document.getElementById('businessPhone').value,
-            gstNumber: document.getElementById('gstNumber').value,
-            qstNumber: document.getElementById('qstNumber').value
-        };
-        return formData;
     }
 }
