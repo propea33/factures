@@ -10,7 +10,19 @@ class InvoiceHistory {
     }
 
     init() {
+        this.setupHistoryButton();
         this.setupHistoryModal();
+    }
+
+    setupHistoryButton() {
+        const title = document.querySelector('h1');
+        const historyButton = document.createElement('button');
+        historyButton.textContent = 'Historique';
+        historyButton.className = 'history-button';
+        historyButton.style.marginBottom = '20px';
+        historyButton.style.marginTop = '10px';
+        historyButton.addEventListener('click', () => this.showHistory());
+        title.parentNode.insertBefore(historyButton, title.nextSibling);
     }
 
     setupHistoryModal() {
