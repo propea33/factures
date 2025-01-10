@@ -431,6 +431,7 @@ button:hover {
     position: sticky;
     top: 0;
     z-index: 100;
+    min-height: 70px;  /* Ajouté pour garantir une hauteur minimale */
 }
 
 .navbar h1 {
@@ -438,18 +439,21 @@ button:hover {
     left: 50%;
     transform: translateX(-50%);
     margin: 0;
+     font-size: 1.8em;  /* Augmenté la taille de la police */
 }
 
 .toggle-sidebar {
     background: none;
     border: none;
-    font-size: 24px;
+    font-size: 28px;  /* Légèrement plus grand */
     cursor: pointer;
-    padding: 5px 10px;
-    margin-right: auto;  /* Modifié pour placer le bouton à gauche */
+    padding: 8px 12px;  /* Padding ajusté */
+    margin-right: auto;
     color: #2c3e50;
     position: absolute;
     left: 20px;
+    display: flex;
+    align-items: center;
 }
 
 .toggle-sidebar:hover {
