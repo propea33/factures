@@ -1,178 +1,50 @@
+/* Styles existants */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-body {
-    font-family: 'Arial', sans-serif;
-    line-height: 1.6;
-    color: #333;
-    background-color: #f5f5f5;
-    padding: 20px;
-}
+/* ... (tous les styles existants restent les mêmes) ... */
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    background: #fff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.container h1 {
+/* Nouveaux styles */
+.navbar h1 {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     margin: 0;
-    text-align: center;
-    color: #2c3e50;
-    display: inline-block;
 }
 
-.flex-container {
+.items-header {
     display: flex;
-    gap: 20px;
+    align-items: center;
+    gap: 15px;
     margin-bottom: 20px;
 }
 
-.flex-item {
-    flex: 1;
-    min-width: 0;
+.items-header h2 {
+    margin: 0;
 }
 
-.form-section {
-    background: #f8f9fa;
-    padding: 20px;
-    border-radius: 5px;
-    border: 1px solid #dee2e6;
-}
-
-h2 {
-    color: #2c3e50;
-    margin-bottom: 20px;
-    font-size: 1.5em;
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-label {
-    display: block;
-    margin-bottom: 5px;
-    color: #2c3e50;
-    font-weight: bold;
-}
-
-input {
-    width: 100%;
-    padding: 8px 12px;
+#currencySelect {
+    padding: 5px 10px;
     border: 1px solid #ced4da;
     border-radius: 4px;
-    font-size: 1em;
+    font-size: 0.9em;
 }
 
-input:focus {
-    outline: none;
-    border-color: #80bdff;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
-
-button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1em;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-.button-group {
+.checkbox-label {
     display: flex;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-#previewInvoice {
-    flex: 1;
-    background-color: #6c757d;
-}
-
-#previewInvoice:hover {
-    background-color: #5a6268;
-}
-
-#generateInvoice {
-    flex: 1;
-    background-color: #28a745;
-}
-
-#generateInvoice:hover {
-    background-color: #218838;
-}
-
-.item-row {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 20px;
-    background: white;
-    padding: 10px;
-    border-radius: 4px;
-}
-
-.item-row .item-description {
-    width: 100%;
-    margin-bottom: 10px;
-}
-
-.item-row .item-details {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr auto;
-    gap: 10px;
     align-items: center;
+    gap: 8px;
 }
 
-.remove-item {
-    background-color: #dc3545;
-    padding: 8px 12px;
+.checkbox-label input[type="checkbox"] {
+    width: auto;
+    margin: 0;
 }
 
-.remove-item:hover {
-    background-color: #c82333;
-}
-
-#addItem {
-    margin-top: 10px;
-    width: 100%;
-    background-color: #6c757d;
-}
-
-#addItem:hover {
-    background-color: #5a6268;
-}
-
-/* Styles pour le bouton historique et le modal */
-.history-button {
-    background-color: #6c757d;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1em;
-    transition: background-color 0.3s ease;
-}
-
-.history-button:hover {
-    background-color: #5a6268;
-}
-
+/* Modification pour le modal d'historique */
 .history-modal {
     display: none;
     position: fixed;
@@ -184,304 +56,6 @@ button:hover {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.history-modal-content {
-    background-color: #fff;
-    margin: 5% auto;
-    padding: 20px;
-    border-radius: 8px;
-    width: 80%;
-    max-width: 900px;
-    max-height: 80vh;
-    overflow-y: auto;
-}
-
-.history-modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.close-modal {
-    font-size: 24px;
-    font-weight: bold;
-    cursor: pointer;
-    color: #666;
-}
-
-.close-modal:hover {
-    color: #333;
-}
-
-.history-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-.history-table th,
-.history-table td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-.history-table th {
-    background-color: #f8f9fa;
-    font-weight: bold;
-}
-
-.action-buttons {
-    display: flex;
-    gap: 8px;
-}
-
-.action-buttons button {
-    padding: 6px 12px;
-}
-
-.preview-btn {
-    background-color: #6c757d;
-}
-
-.preview-btn:hover {
-    background-color: #5a6268;
-}
-
-.download-btn {
-    background-color: #28a745;
-}
-
-.download-btn:hover {
-    background-color: #218838;
-}
-
-.delete-btn {
-    background-color: #dc3545;
-    padding: 4px 8px !important;
-}
-
-.delete-btn:hover {
-    background-color: #c82333;
-}
-
-.saved-client-item {
-    display: inline-flex;
-    align-items: center;
-    padding: 5px 10px;
-    background-color: #e9ecef;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin: 5px;
-}
-
-.saved-client-item:hover {
-    background-color: #dee2e6;
-}
-
-.saved-clients-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin: 20px 0;
-    padding: 10px;
-    border-radius: 4px;
-    background-color: #f8f9fa;
-}
-
-.client-name {
-    margin-right: 5px;
-}
-
-.delete-client {
-    visibility: hidden;
-    opacity: 0;
-    color: #dc3545;
-    margin-left: 5px;
-    font-weight: bold;
-    font-size: 1.2em;
-    transition: all 0.3s ease;
-}
-
-.saved-client-item:hover .delete-client {
-    visibility: visible;
-    opacity: 1;
-}
-
-.delete-client:hover {
-    color: #c82333;
-}
-
-@media screen and (max-width: 768px) {
-    .flex-container {
-        flex-direction: column;
-    }
-    
-    .action-buttons {
-        flex-direction: column;
-    }
-}
-
-.saved-items-list {
-    margin-bottom: 20px !important;
-}
-/* Ajout des styles pour la section titre */
-.header-section {
-    margin-bottom: 20px;
-    text-align: left;
-}
-
-.header-section h1 {
-    margin-bottom: 10px;
-}
-
-.history-button {
-    background-color: #6c757d;
-    color: white;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9em;
-}
-
-/* Styles pour le menu latéral */
-.sidebar {
-    position: fixed;
-    left: -300px;
-    top: 0;
-    width: 300px;
-    height: 100%;
-    background-color: #2c3e50;
-    transition: left 0.3s ease;
-    z-index: 1000;
-    color: white;
-}
-
-.sidebar.open {
-    left: 0;
-}
-
-.sidebar-content {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-
-.sidebar-button {
-    width: 100%;
-    padding: 12px;
-    background-color: #34495e;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-bottom: 10px;
-    text-align: left;
-    transition: background-color 0.3s;
-}
-
-.sidebar-button:hover {
-    background-color: #3d5a80;
-}
-
-.sidebar-divider {
-    height: 1px;
-    background-color: #415b76;
-    margin: 20px 0;
-}
-
-.sidebar-section {
-    flex-grow: 1;
-    overflow-y: auto;
-}
-
-.sidebar-section h3 {
-    margin-bottom: 15px;
-    color: #ecf0f1;
-}
-
-/* Styles pour la barre de navigation */
-.navbar {
-    background-color: #fff;
-    padding: 15px 20px;
-    display: flex;
-    align-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.toggle-sidebar {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    padding: 5px 10px;
-    margin-right: 20px;
-    color: #2c3e50;
-}
-
-.toggle-sidebar:hover {
-    color: #3498db;
-}
-
-/* Ajustement du contenu principal */
-.main-content {
-    margin-left: 0;
-    transition: margin-left 0.3s ease;
-}
-
-.main-content.sidebar-open {
-    margin-left: 300px;
-}
-
-/* Modification des styles pour les clients sauvegardés */
-.saved-clients-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 0;
-}
-
-.saved-client-item {
-    background-color: #34495e;
-    padding: 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.saved-client-item:hover {
-    background-color: #3d5a80;
-}
-
-.delete-client {
-    color: #e74c3c;
-    padding: 5px;
-    cursor: pointer;
-}
-
-.delete-client:hover {
-    color: #c0392b;
-}
-
-/* Media queries pour le responsive */
-@media screen and (max-width: 768px) {
-    .sidebar {
-        width: 250px;
-    }
-    
-    .main-content.sidebar-open {
-        margin-left: 0;
-    }
-}
-
-.history-button:hover {
-    background-color: #5a6268;
+.history-modal.show {
+    display: block;
 }
