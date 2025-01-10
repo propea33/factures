@@ -23,8 +23,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('invoiceNumber').value = getLastInvoiceNumber();
 
+    // Ajouter l'event listener pour le bouton historique
+    document.getElementById('historyButton').addEventListener('click', function() {
+        if (window.invoiceHistory) {
+            window.invoiceHistory.showHistory();
+        }
+    });
+
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
+
+        const noTax = document.getElementById('noTax').checked;
+        const currency = document.getElementById('currencySelect').value;
 
         // Collect form data
         const formData = {
@@ -39,7 +49,9 @@ document.addEventListener('DOMContentLoaded', function() {
             clientAddress: document.getElementById('clientAddress').value,
             clientPhone: document.getElementById('clientPhone').value,
             invoiceNumber: document.getElementById('invoiceNumber').value,
-            invoiceDate: document.getElementById('invoiceDate').value
+            invoiceDate: document.getElementById('invoiceDate').value,
+            currency: currency,
+            noTax: noTax
         };
 
         if (formData.clientName.trim() !== '') {
@@ -48,12 +60,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const items = itemManager.getItems();
         const subtotal = items.reduce((sum, item) => sum + item.amount, 0);
-        const taxes = TaxCalculator.calculateTaxes(subtotal);
+        
+        let taxes;
+        if (noTax) {
+            taxes = {
+                subtotal: subtotal,
+                tps: 0,
+                tvq: 0,
+                total: subtotal
+            };
+        } else {
+            taxes = TaxCalculator.calculateTaxes(subtotal);
+        }
 
         try {
             const success = await PDFGenerator.generatePDF(formData, items, taxes);
             if (success) {
-                // Sauvegarder les items seulement après génération réussie de la facture
                 itemManager.saveItems();
                 document.getElementById('invoiceNumber').value = getLastInvoiceNumber();
             }
@@ -64,6 +86,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Preview handler
     document.getElementById('previewInvoice').addEventListener('click', function() {
+        const noTax = document.getElementById('noTax').checked;
+        const currency = document.getElementById('currencySelect').value;
+
         const formData = {
             businessName: document.getElementById('businessName').value || 'N/A',
             businessEmail: document.getElementById('businessEmail').value || 'N/A',
@@ -76,12 +101,25 @@ document.addEventListener('DOMContentLoaded', function() {
             clientAddress: document.getElementById('clientAddress').value || 'N/A',
             clientPhone: document.getElementById('clientPhone').value || 'N/A',
             invoiceNumber: document.getElementById('invoiceNumber').value || 'N/A',
-            invoiceDate: document.getElementById('invoiceDate').value
+            invoiceDate: document.getElementById('invoiceDate').value,
+            currency: currency,
+            noTax: noTax
         };
 
         const items = itemManager.getItems();
         const subtotal = items.reduce((sum, item) => sum + item.amount, 0);
-        const taxes = TaxCalculator.calculateTaxes(subtotal);
+        
+        let taxes;
+        if (noTax) {
+            taxes = {
+                subtotal: subtotal,
+                tps: 0,
+                tvq: 0,
+                total: subtotal
+            };
+        } else {
+            taxes = TaxCalculator.calculateTaxes(subtotal);
+        }
 
         PDFGenerator.showPreview(formData, items, taxes);
     });
