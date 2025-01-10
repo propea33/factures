@@ -28,7 +28,6 @@ class InvoiceHistory {
                             <thead>
                                 <tr>
                                     <th>Numéro de facture</th>
-                                    <th>Date</th>
                                     <th>Montant</th>
                                     <th>Actions</th>
                                 </tr>
@@ -69,14 +68,10 @@ class InvoiceHistory {
     }
 
     deleteInvoice(invoiceNumber) {
-        if (confirm(`Êtes-vous sûr de vouloir supprimer la facture ${invoiceNumber} ?`)) {
-            const invoices = this.getInvoices();
-            const filteredInvoices = invoices.filter(invoice => 
-                invoice.formData.invoiceNumber !== invoiceNumber
-            );
-            localStorage.setItem(this.storageKey, JSON.stringify(filteredInvoices));
-            this.showHistory(); // Rafraîchir l'affichage
-        }
+        const invoices = this.getInvoices();
+        const updatedInvoices = invoices.filter(invoice => invoice.formData.invoiceNumber !== invoiceNumber);
+        localStorage.setItem(this.storageKey, JSON.stringify(updatedInvoices));
+        this.showHistory(); // Rafraîchir l'affichage après la suppression
     }
 
     showHistory() {
@@ -84,21 +79,17 @@ class InvoiceHistory {
         const tbody = modal.querySelector('tbody');
         const invoices = this.getInvoices();
         
-        tbody.innerHTML = '';
+        tbody.innerHTML = '';  // Clear existing content
         
         invoices.forEach(invoice => {
-            const date = new Date(invoice.timestamp);
-            const formattedDate = date.toLocaleDateString('fr-CA');
-            
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${invoice.formData.invoiceNumber}</td>
-                <td>${formattedDate}</td>
                 <td>${invoice.taxes.total.toFixed(2)} ${invoice.formData.currency === 'EUR' ? '€' : '$'}</td>
                 <td class="action-buttons">
                     <button class="preview-btn">Aperçu</button>
                     <button class="download-btn">Download</button>
-                    <button class="delete-btn" data-invoice="${invoice.formData.invoiceNumber}">×</button>
+                    <button class="delete-btn">×</button>
                 </td>
             `;
 
@@ -115,10 +106,10 @@ class InvoiceHistory {
                 PDFGenerator.generatePDF(invoice.formData, invoice.items, invoice.taxes);
             };
 
-            deleteBtn.onclick = (e) => {
-                e.stopPropagation();
-                const invoiceNumber = e.target.getAttribute('data-invoice');
-                this.deleteInvoice(invoiceNumber);
+            deleteBtn.onclick = () => {
+                if (confirm('Êtes-vous sûr de vouloir supprimer cette facture ?')) {
+                    this.deleteInvoice(invoice.formData.invoiceNumber);
+                }
             };
 
             tbody.appendChild(row);
