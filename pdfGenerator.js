@@ -63,7 +63,9 @@ class PDFGenerator {
             );
 
             // Sauvegarder dans l'historique
-            window.invoiceHistory.saveInvoice(formData, items, taxes);
+            if (window.invoiceHistory) {
+                window.invoiceHistory.saveInvoice(formData, items, taxes);
+            }
 
             pdf.save(`facture-${formData.invoiceNumber}.pdf`);
             
@@ -77,9 +79,11 @@ class PDFGenerator {
         }
     }
 
-    
-
     static generateHTML(formData, items, taxes) {
+        // Définir le symbole de la devise et le code
+        const currencySymbol = formData.currency === 'EUR' ? '€' : '$';
+        const currencyCode = formData.currency || 'CAD';
+
         // Correction pour la date : on ajuste la date pour compenser le décalage horaire
         const formatDate = (dateString) => {
             if (!dateString) return '';
@@ -139,9 +143,9 @@ class PDFGenerator {
                         ${items.map(item => `
                             <tr>
                                 <td style="text-align: left;">${item.description}</td>
-                                <td style="text-align: right;">${item.rate.toFixed(2)} $</td>
+                                <td style="text-align: right;">${item.rate.toFixed(2)} ${currencySymbol}</td>
                                 <td style="text-align: right;">${item.quantity}</td>
-                                <td style="text-align: right;">${item.amount.toFixed(2)} $</td>
+                                <td style="text-align: right;">${item.amount.toFixed(2)} ${currencySymbol}</td>
                             </tr>
                         `).join('')}
                     </tbody>
@@ -151,19 +155,21 @@ class PDFGenerator {
                     <table style="width: 300px; margin-left: auto;">
                         <tr>
                             <td style="text-align: left;">Sous-total:</td>
-                            <td style="text-align: right;">${taxes.subtotal.toFixed(2)} $</td>
+                            <td style="text-align: right;">${taxes.subtotal.toFixed(2)} ${currencySymbol}</td>
                         </tr>
-                        <tr>
-                            <td style="text-align: left;">TPS (5%):</td>
-                            <td style="text-align: right;">${taxes.tps.toFixed(2)} $</td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: left;">TVQ (9.975%):</td>
-                            <td style="text-align: right;">${taxes.tvq.toFixed(2)} $</td>
-                        </tr>
+                        ${!formData.noTax ? `
+                            <tr>
+                                <td style="text-align: left;">TPS (5%):</td>
+                                <td style="text-align: right;">${taxes.tps.toFixed(2)} ${currencySymbol}</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left;">TVQ (9.975%):</td>
+                                <td style="text-align: right;">${taxes.tvq.toFixed(2)} ${currencySymbol}</td>
+                            </tr>
+                        ` : ''}
                         <tr>
                             <td style="text-align: left; font-weight: bold;">Total:</td>
-                            <td style="text-align: right; font-weight: bold;">${taxes.total.toFixed(2)} $</td>
+                            <td style="text-align: right; font-weight: bold;">${taxes.total.toFixed(2)} ${currencySymbol} ${currencyCode}</td>
                         </tr>
                     </table>
                 </div>
