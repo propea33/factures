@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const itemManager = new ItemManager();
     const clientStorage = new ClientStorage();
     const form = document.getElementById('invoiceForm');
-
+ 
     // Set default date to today
     document.getElementById('invoiceDate').valueAsDate = new Date();
     
