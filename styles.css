@@ -484,12 +484,23 @@ button:hover {
     min-height: 70px;  /* Ajouté pour garantir une hauteur minimale */
 }
 
-.navbar h1 {
+
+.navbar-title {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+    text-align: center;
+}
+
+.navbar h1 {
     margin: 0;
-     font-size: 1.8em;  /* Augmenté la taille de la police */
+    font-size: 1.8em;
+}
+
+.slogan {
+    margin: 5px 0 0 0;
+    font-size: 0.9em;
+    color: #666;
 }
 
 .toggle-sidebar {
@@ -731,5 +742,13 @@ button:hover {
     .main-content.sidebar-open {
         margin-left: 0;
         position: relative;
+    }
+
+    .navbar-title {
+        width: 100%;
+    }
+
+    .slogan {
+        font-size: 0.8em;
     }
 }
