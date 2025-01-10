@@ -123,6 +123,11 @@ button:hover {
     margin-top: 20px;
 }
 
+.button-group button {
+    flex: 1;
+    padding: 12px 20px;
+}
+
 #previewInvoice {
     flex: 1;
     background-color: #6c757d;
@@ -515,4 +520,13 @@ button:hover {
     .toggle-sidebar {
         padding: 3px 8px;
     }
+}
+
+.email-button {
+    flex: 1;
+    background-color: #4CAF50;
+}
+
+.email-button:hover {
+    background-color: #45a049;
 }
