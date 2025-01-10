@@ -9,16 +9,26 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Get last invoice number from localStorage
     const getLastInvoiceNumber = () => {
+        const today = new Date();
+        const datePrefix = `${today.getFullYear()}${String(today.getMonth() + 1).padStart(2, '0')}${String(today.getDate()).padStart(2, '0')}`;
         const invoices = JSON.parse(localStorage.getItem('invoiceHistory') || '[]');
-        if (invoices.length === 0) {
-            const today = new Date();
-            return `INV${today.getFullYear()}${String(today.getMonth() + 1).padStart(2, '0')}${String(today.getDate()).padStart(2, '0')}001`;
+        
+        // Filtrer les factures pour ne garder que celles d'aujourd'hui
+        const todayInvoices = invoices.filter(invoice => 
+            invoice.formData.invoiceNumber.includes(`INV${datePrefix}`)
+        );
+
+        if (todayInvoices.length === 0) {
+            return `INV${datePrefix}001`;
         }
         
-        const lastInvoice = invoices[invoices.length - 1];
-        const lastNumber = parseInt(lastInvoice.formData.invoiceNumber.slice(-3));
-        const today = new Date();
-        return `INV${today.getFullYear()}${String(today.getMonth() + 1).padStart(2, '0')}${String(today.getDate()).padStart(2, '0')}${String(lastNumber + 1).padStart(3, '0')}`;
+        // Trouver le plus grand numéro de séquence pour aujourd'hui
+        const sequences = todayInvoices.map(invoice => 
+            parseInt(invoice.formData.invoiceNumber.slice(-3))
+        );
+        const maxSequence = Math.max(...sequences);
+        
+        return `INV${datePrefix}${String(maxSequence + 1).padStart(3, '0')}`;
     };
 
     document.getElementById('invoiceNumber').value = getLastInvoiceNumber();
