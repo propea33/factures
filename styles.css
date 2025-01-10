@@ -484,6 +484,27 @@ button:hover {
     min-height: 70px;
 }
 
+.navbar h1 {
+    margin: 0;
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.title-separator {
+    color: #95a5a6;
+    font-weight: 200;
+    margin: 0 4px;
+}
+
+.slogan {
+    color: #7f8c8d;
+    font-size: 0.9em;
+    font-weight: 400;
+    letter-spacing: 0.2px;
+}
+
+
 
 .brand-name {
     font-size: 1.8em;
@@ -509,9 +530,9 @@ button:hover {
 .toggle-sidebar {
     background: none;
     border: none;
-    font-size: 28px;  /* Légèrement plus grand */
+    font-size: 28px;
     cursor: pointer;
-    padding: 8px 12px;  /* Padding ajusté */
+    padding: 8px 12px;
     margin-right: auto;
     color: #2c3e50;
     position: absolute;
@@ -633,13 +654,27 @@ button:hover {
         gap: 12px;
     }
 
+     .title-container {
+        flex-direction: column;
+        gap: 4px;
+        align-items: center;
+    }
+    
+    .title-separator {
+        display: none;
+    }
+    
+    .slogan {
+        font-size: 0.7em;
+    }
+
     .button-group button {
         width: 100%;
         padding: 15px;  /* Plus grand pour mobile */
     }
 
     .navbar {
-        padding: 10px;
+        padding: 15px 10px;
     }
 
     .navbar h1 {
