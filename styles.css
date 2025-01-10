@@ -700,6 +700,7 @@ button:hover {
         max-height: 85vh;
     }
 }
+
 @media screen and (max-width: 768px) {
     .sidebar {
         width: 80%;  /* Réduire la largeur pour ne pas prendre tout l'écran */
