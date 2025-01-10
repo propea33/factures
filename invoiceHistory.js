@@ -28,6 +28,7 @@ class InvoiceHistory {
                             <thead>
                                 <tr>
                                     <th>Numéro de facture</th>
+                                    <th>Date</th>
                                     <th>Montant</th>
                                     <th>Actions</th>
                                 </tr>
@@ -68,13 +69,13 @@ class InvoiceHistory {
     }
 
     deleteInvoice(invoiceNumber) {
-        if (confirm('Êtes-vous sûr de vouloir supprimer cette facture ?')) {
+        if (confirm(`Êtes-vous sûr de vouloir supprimer la facture ${invoiceNumber} ?`)) {
             const invoices = this.getInvoices();
-            const updatedInvoices = invoices.filter(
-                invoice => invoice.formData.invoiceNumber !== invoiceNumber
+            const filteredInvoices = invoices.filter(invoice => 
+                invoice.formData.invoiceNumber !== invoiceNumber
             );
-            localStorage.setItem(this.storageKey, JSON.stringify(updatedInvoices));
-            this.showHistory();
+            localStorage.setItem(this.storageKey, JSON.stringify(filteredInvoices));
+            this.showHistory(); // Rafraîchir l'affichage
         }
     }
 
@@ -83,21 +84,24 @@ class InvoiceHistory {
         const tbody = modal.querySelector('tbody');
         const invoices = this.getInvoices();
         
-        tbody.innerHTML = '';  // Clear existing content
+        tbody.innerHTML = '';
         
         invoices.forEach(invoice => {
+            const date = new Date(invoice.timestamp);
+            const formattedDate = date.toLocaleDateString('fr-CA');
+            
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${invoice.formData.invoiceNumber}</td>
+                <td>${formattedDate}</td>
                 <td>${invoice.taxes.total.toFixed(2)} ${invoice.formData.currency === 'EUR' ? '€' : '$'}</td>
                 <td class="action-buttons">
                     <button class="preview-btn">Aperçu</button>
                     <button class="download-btn">Download</button>
-                    <button class="delete-btn">×</button>
+                    <button class="delete-btn" data-invoice="${invoice.formData.invoiceNumber}">×</button>
                 </td>
             `;
 
-            // Setup event handlers with invoice data in closure
             const previewBtn = row.querySelector('.preview-btn');
             const downloadBtn = row.querySelector('.download-btn');
             const deleteBtn = row.querySelector('.delete-btn');
@@ -111,8 +115,10 @@ class InvoiceHistory {
                 PDFGenerator.generatePDF(invoice.formData, invoice.items, invoice.taxes);
             };
 
-            deleteBtn.onclick = () => {
-                this.deleteInvoice(invoice.formData.invoiceNumber);
+            deleteBtn.onclick = (e) => {
+                e.stopPropagation();
+                const invoiceNumber = e.target.getAttribute('data-invoice');
+                this.deleteInvoice(invoiceNumber);
             };
 
             tbody.appendChild(row);
