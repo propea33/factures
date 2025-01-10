@@ -83,59 +83,41 @@ class InvoiceHistory {
         const tbody = modal.querySelector('tbody');
         const invoices = this.getInvoices();
         
-        tbody.innerHTML = invoices.map(invoice => `
-            <tr>
-                <td>${invoice.formData.invoiceNumber}</td>
-                <td>${invoice.taxes.total.toFixed(2)} $</td>
-                <td class="action-buttons">
-                    <button class="preview-btn" data-invoice="${invoice.formData.invoiceNumber}">
-                        Aperçu
-                    </button>
-                    <button class="download-btn" data-invoice="${invoice.formData.invoiceNumber}">
-                        Download
-                    </button>
-                    <button class="delete-btn" data-invoice="${invoice.formData.invoiceNumber}">
-                        ×
-                    </button>
-                </td>
-            </tr>
-        `).join('');
+        tbody.innerHTML = '';  // Clear existing content
         
-        this.setupHistoryEvents(tbody);
+        invoices.forEach(invoice => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${invoice.formData.invoiceNumber}</td>
+                <td>${invoice.taxes.total.toFixed(2)} ${invoice.formData.currency === 'EUR' ? '€' : '$'}</td>
+                <td class="action-buttons">
+                    <button class="preview-btn">Aperçu</button>
+                    <button class="download-btn">Download</button>
+                    <button class="delete-btn">×</button>
+                </td>
+            `;
+
+            // Setup event handlers with invoice data in closure
+            const previewBtn = row.querySelector('.preview-btn');
+            const downloadBtn = row.querySelector('.download-btn');
+            const deleteBtn = row.querySelector('.delete-btn');
+
+            previewBtn.onclick = () => {
+                PDFGenerator.showPreview(invoice.formData, invoice.items, invoice.taxes);
+                modal.style.display = 'none';
+            };
+
+            downloadBtn.onclick = () => {
+                PDFGenerator.generatePDF(invoice.formData, invoice.items, invoice.taxes);
+            };
+
+            deleteBtn.onclick = () => {
+                this.deleteInvoice(invoice.formData.invoiceNumber);
+            };
+
+            tbody.appendChild(row);
+        });
+        
         modal.style.display = 'block';
-    }
-
-    setupHistoryEvents(tbody) {
-        tbody.querySelectorAll('.preview-btn').forEach(btn => {
-            btn.onclick = () => {
-                const invoiceNumber = btn.dataset.invoice;
-                const invoice = this.getInvoices().find(
-                    inv => inv.formData.invoiceNumber === invoiceNumber
-                );
-                if (invoice) {
-                    PDFGenerator.showPreview(invoice.formData, invoice.items, invoice.taxes);
-                    document.querySelector('.history-modal').style.display = 'none';
-                }
-            };
-        });
-
-        tbody.querySelectorAll('.download-btn').forEach(btn => {
-            btn.onclick = () => {
-                const invoiceNumber = btn.dataset.invoice;
-                const invoice = this.getInvoices().find(
-                    inv => inv.formData.invoiceNumber === invoiceNumber
-                );
-                if (invoice) {
-                    PDFGenerator.generatePDF(invoice.formData, invoice.items, invoice.taxes);
-                }
-            };
-        });
-
-        tbody.querySelectorAll('.delete-btn').forEach(btn => {
-            btn.onclick = () => {
-                const invoiceNumber = btn.dataset.invoice;
-                this.deleteInvoice(invoiceNumber);
-            };
-        });
     }
 }
