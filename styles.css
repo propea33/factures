@@ -1,3 +1,53 @@
+
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/* Préfixes pour Safari */
+.flex-container {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-gap: 20px;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.item-row .item-details {
+    display: -webkit-grid;
+    display: grid;
+    -webkit-grid-template-columns: 1fr 1fr 1fr auto;
+    grid-template-columns: 1fr 1fr 1fr auto;
+    -webkit-gap: 10px;
+    gap: 10px;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+/* Fix pour les inputs numériques sur Safari */
+input[type="number"] {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Fix pour le scroll sur Safari */
+.history-modal-content {
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Fix pour les transitions sur Safari */
+.sidebar {
+    -webkit-transition: left 0.3s ease;
+    transition: left 0.3s ease;
+}
+
+/* Fix pour les boutons sur Safari */
+button {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -533,4 +583,120 @@ button:hover {
 
 .email-button:hover {
     background-color: #45a049;
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 15px;
+        margin: 10px;
+    }
+
+    .form-section {
+        padding: 15px;
+    }
+
+    .flex-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .item-row .item-details {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    .item-row {
+        padding: 8px;
+    }
+
+    input, select {
+        padding: 12px;  /* Plus grand pour mobile */
+        font-size: 16px;  /* Évite le zoom automatique sur iOS */
+    }
+
+    .button-group {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .button-group button {
+        width: 100%;
+        padding: 15px;  /* Plus grand pour mobile */
+    }
+
+    .navbar {
+        padding: 10px;
+    }
+
+    .navbar h1 {
+        font-size: 1.5em;
+    }
+
+    .history-modal-content {
+        width: 95%;
+        margin: 2.5%;
+        padding: 15px;
+    }
+
+    .history-table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .history-table th,
+    .history-table td {
+        min-width: 100px;
+        padding: 8px;
+    }
+
+    .action-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .action-buttons button {
+        width: 100%;
+        margin: 2px 0;
+    }
+
+    /* Ajustements pour le menu latéral sur mobile */
+    .sidebar {
+        width: 100%;
+        left: -100%;
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .main-content.sidebar-open {
+        margin-left: 0;
+        overflow: hidden;
+    }
+}
+
+/* Ajustements spécifiques pour les très petits écrans */
+@media screen and (max-width: 320px) {
+    .container {
+        padding: 10px;
+        margin: 5px;
+    }
+
+    input, select {
+        font-size: 14px;
+    }
+}
+
+/* Fix pour l'orientation paysage sur mobile */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+    .sidebar {
+        position: absolute;
+        height: 100vh;
+    }
+
+    .history-modal-content {
+        max-height: 85vh;
+    }
 }
