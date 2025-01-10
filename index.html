@@ -5,22 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Générateur de facture gratuit</title>
 
-  <meta name="description" content="Créez vos factures en quelques clics avec billvite.com. Notre générateur de factures en ligne gratuit et facile à utiliser vous permet de générer des factures professionnelles au format PDF en quelques secondes. Gagnez du temps et simplifiez votre comptabilité.">
-  <meta name="keywords" content="générateur de facture, facture en ligne, créer facture, facture PDF, facture gratuite, logiciel de facturation, comptabilité, entreprise, auto-entrepreneur">
-  <meta name="robots" content="index, follow">
+    <meta name="description" content="Créez vos factures en quelques clics avec billvite.com. Notre générateur de factures en ligne gratuit et facile à utiliser vous permet de générer des factures professionnelles au format PDF en quelques secondes. Gagnez du temps et simplifiez votre comptabilité.">
+    <meta name="keywords" content="générateur de facture, facture en ligne, créer facture, facture PDF, facture gratuite, logiciel de facturation, comptabilité, entreprise, auto-entrepreneur">
+    <meta name="robots" content="index, follow">
 
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/site.webmanifest">
-
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
     
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
-    <!-- Nouveau menu latéral -->
+    <!-- Menu latéral -->
     <div id="sidebar" class="sidebar">
         <div class="sidebar-content">
             <button id="historyButton" class="sidebar-button">Historique</button>
@@ -33,7 +32,7 @@
     </div>
 
     <div class="main-content">
-        <!-- Nouvelle barre de navigation -->
+        <!-- Barre de navigation -->
         <div class="navbar">
             <button id="toggleSidebar" class="toggle-sidebar">☰</button>
             <h1>Billvite</h1>
@@ -41,93 +40,107 @@
 
         <div class="container">
             <form id="invoiceForm">
-            <div class="flex-container">
-                <section class="form-section flex-item">
-                    <h2>Information de l'entreprise</h2>
-                    <div class="form-group">
-                        <label for="businessName">Nom de l'entreprise</label>
-                        <input type="text" id="businessName">
-                    </div>
-                    <div class="form-group">
-                        <label for="businessEmail">Courriel</label>
-                        <input type="email" id="businessEmail">
-                    </div>
-                    <div class="form-group">
-                        <label for="businessAddress">Adresse</label>
-                        <input type="text" id="businessAddress">
-                    </div>
-                    <div class="form-group">
-                        <label for="businessPhone">Téléphone</label>
-                        <input type="tel" id="businessPhone">
-                    </div>
-                    <div class="form-group">
-                        <label for="gstNumber">Numéro GST</label>
-                        <input type="text" id="gstNumber">
-                    </div>
-                    <div class="form-group">
-                        <label for="qstNumber">Numéro QST</label>
-                        <input type="text" id="qstNumber">
-                    </div>
-                </section>
+                <div class="flex-container">
+                    <section class="form-section flex-item">
+                        <h2>Information de l'entreprise</h2>
+                        <div class="form-group">
+                            <label for="businessName">Nom de l'entreprise</label>
+                            <input type="text" id="businessName">
+                        </div>
+                        <div class="form-group">
+                            <label for="businessEmail">Courriel</label>
+                            <input type="email" id="businessEmail">
+                        </div>
+                        <div class="form-group">
+                            <label for="businessAddress">Adresse</label>
+                            <input type="text" id="businessAddress">
+                        </div>
+                        <div class="form-group">
+                            <label for="businessPhone">Téléphone</label>
+                            <input type="tel" id="businessPhone">
+                        </div>
+                        <div class="form-group">
+                            <label for="gstNumber">Numéro GST</label>
+                            <input type="text" id="gstNumber">
+                        </div>
+                        <div class="form-group">
+                            <label for="qstNumber">Numéro QST</label>
+                            <input type="text" id="qstNumber">
+                        </div>
+                    </section>
 
-                <section class="form-section flex-item">
-                    <h2>Information du client</h2>
-                    <div class="form-group">
-                        <label for="clientName">Nom du client</label>
-                        <input type="text" id="clientName">
-                    </div>
-                    <div class="form-group">
-                        <label for="clientEmail">Courriel</label>
-                        <input type="email" id="clientEmail">
-                    </div>
-                    <div class="form-group">
-                        <label for="clientAddress">Adresse</label>
-                        <input type="text" id="clientAddress">
-                    </div>
-                    <div class="form-group">
-                        <label for="clientPhone">Téléphone</label>
-                        <input type="tel" id="clientPhone">
-                    </div>
-                </section>
-            </div>
+                    <section class="form-section flex-item">
+                        <h2>Information du client</h2>
+                        <div class="form-group">
+                            <label for="clientName">Nom du client</label>
+                            <input type="text" id="clientName">
+                        </div>
+                        <div class="form-group">
+                            <label for="clientEmail">Courriel</label>
+                            <input type="email" id="clientEmail">
+                        </div>
+                        <div class="form-group">
+                            <label for="clientAddress">Adresse</label>
+                            <input type="text" id="clientAddress">
+                        </div>
+                        <div class="form-group">
+                            <label for="clientPhone">Téléphone</label>
+                            <input type="tel" id="clientPhone">
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="noTax">
+                                Pas de taxe
+                            </label>
+                        </div>
+                    </section>
+                </div>
 
-            <div class="flex-container">
-                <section class="form-section flex-item">
-                    <h2>Détails de la facture</h2>
-                    <div class="form-group">
-                        <label for="invoiceNumber">Numéro de facture</label>
-                        <input type="text" id="invoiceNumber">
-                    </div>
-                    <div class="form-group">
-                        <label for="invoiceDate">Date</label>
-                        <input type="date" id="invoiceDate">
-                    </div>
-                </section>
+                <div class="flex-container">
+                    <section class="form-section flex-item">
+                        <h2>Détails de la facture</h2>
+                        <div class="form-group">
+                            <label for="invoiceNumber">Numéro de facture</label>
+                            <input type="text" id="invoiceNumber">
+                        </div>
+                        <div class="form-group">
+                            <label for="invoiceDate">Date</label>
+                            <input type="date" id="invoiceDate">
+                        </div>
+                    </section>
 
-                <section class="form-section flex-item">
-                    <h2>Items</h2>
-                    <div id="itemsContainer">
-                        <!-- Les items seront ajoutés ici -->
-                    </div>
-                    <button type="button" id="addItem">Ajouter un item</button>
-                </section>
-            </div>
+                    <section class="form-section flex-item">
+                        <div class="items-header">
+                            <h2>Items</h2>
+                            <select id="currencySelect">
+                                <option value="CAD">$CAD</option>
+                                <option value="USD">$US</option>
+                                <option value="EUR">€EUR</option>
+                            </select>
+                        </div>
+                        <div id="itemsContainer">
+                            <!-- Les items seront ajoutés ici -->
+                        </div>
+                        <button type="button" id="addItem">Ajouter un item</button>
+                    </section>
+                </div>
 
-            <div class="button-group">
-                <button type="button" id="previewInvoice">Aperçu</button>
-                <button type="submit" id="generateInvoice">Générer la facture</button>
-            </div>
-        </form>
+                <div class="button-group">
+                    <button type="button" id="previewInvoice">Aperçu</button>
+                    <button type="submit" id="generateInvoice">Générer la facture</button>
+                </div>
+            </form>
 
-        <div id="preview" style="display: none;"></div>
+            <div id="preview" style="display: none;"></div>
+        </div>
     </div>
 
-  <script src="taxCalculator.js"></script>
-<script src="clientstorage.js"></script>
-<script src="itemManager.js"></script>
-<script src="pdfGenerator.js"></script>
-<script src="invoiceHistory.js"></script>
-<script src="savedItemsManager.js"></script>
-<script src="script.js"></script>
+    <script src="taxCalculator.js"></script>
+    <script src="clientstorage.js"></script>
+    <script src="itemManager.js"></script>
+    <script src="pdfGenerator.js"></script>
+    <script src="invoiceHistory.js"></script>
+    <script src="savedItemsManager.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
