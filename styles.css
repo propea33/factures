@@ -700,3 +700,35 @@ button:hover {
         max-height: 85vh;
     }
 }
+@media screen and (max-width: 768px) {
+    .sidebar {
+        width: 80%;  /* Réduire la largeur pour ne pas prendre tout l'écran */
+        max-width: 300px;  /* Largeur maximum */
+    }
+    
+    /* Ajout d'un overlay transparent pour pouvoir fermer le menu */
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;  /* Juste en dessous du sidebar */
+    }
+    
+    .sidebar-overlay.active {
+        display: block;
+    }
+    
+    .sidebar {
+        z-index: 1000;  /* Au-dessus de l'overlay */
+    }
+    
+    /* Ajustement du contenu principal en mobile */
+    .main-content.sidebar-open {
+        margin-left: 0;
+        position: relative;
+    }
+}
