@@ -1,50 +1,202 @@
-/* Styles existants */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* ... (tous les styles existants restent les mêmes) ... */
-
-/* Nouveaux styles */
-.navbar h1 {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    margin: 0;
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f5f5f5;
+    padding: 20px;
 }
 
-.items-header {
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.container h1 {
+    margin: 0;
+    text-align: center;
+    color: #2c3e50;
+    display: inline-block;
+}
+
+.flex-container {
     display: flex;
-    align-items: center;
-    gap: 15px;
+    gap: 20px;
     margin-bottom: 20px;
 }
 
-.items-header h2 {
-    margin: 0;
+.flex-item {
+    flex: 1;
+    min-width: 0;
 }
 
-#currencySelect {
-    padding: 5px 10px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    font-size: 0.9em;
+.form-section {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 5px;
+    border: 1px solid #dee2e6;
 }
 
-.checkbox-label {
+h2 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-size: 1.5em;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
 }
 
-.checkbox-label input[type="checkbox"] {
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #2c3e50;
+    font-weight: bold;
+}
+
+/* Style pour la case à cocher "Pas de taxe" */
+label input[type="checkbox"] {
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+input, select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+/* Exception pour la checkbox */
+input[type="checkbox"] {
     width: auto;
-    margin: 0;
 }
 
-/* Modification pour le modal d'historique */
+/* Style pour le sélecteur de devise */
+#currencySelect {
+    width: auto;
+    margin-left: 10px;
+    padding: 4px 8px;
+    font-size: 0.9em;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+#previewInvoice {
+    flex: 1;
+    background-color: #6c757d;
+}
+
+#previewInvoice:hover {
+    background-color: #5a6268;
+}
+
+#generateInvoice {
+    flex: 1;
+    background-color: #28a745;
+}
+
+#generateInvoice:hover {
+    background-color: #218838;
+}
+
+.item-row {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+    background: white;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.item-row .item-description {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.item-row .item-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr auto;
+    gap: 10px;
+    align-items: center;
+}
+
+.remove-item {
+    background-color: #dc3545;
+    padding: 8px 12px;
+}
+
+.remove-item:hover {
+    background-color: #c82333;
+}
+
+#addItem {
+    margin-top: 10px;
+    width: 100%;
+    background-color: #6c757d;
+}
+
+#addItem:hover {
+    background-color: #5a6268;
+}
+
+.history-button {
+    background-color: #6c757d;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.history-button:hover {
+    background-color: #5a6268;
+}
+
 .history-modal {
     display: none;
     position: fixed;
@@ -56,6 +208,311 @@
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.history-modal.show {
-    display: block;
+.history-modal-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 900px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.history-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.close-modal {
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #666;
+}
+
+.close-modal:hover {
+    color: #333;
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.history-table th,
+.history-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.history-table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.action-buttons button {
+    padding: 6px 12px;
+}
+
+.preview-btn {
+    background-color: #6c757d;
+}
+
+.preview-btn:hover {
+    background-color: #5a6268;
+}
+
+.download-btn {
+    background-color: #28a745;
+}
+
+.download-btn:hover {
+    background-color: #218838;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+    padding: 4px 8px !important;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+}
+
+.saved-client-item {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 10px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 5px;
+}
+
+.saved-client-item:hover {
+    background-color: #dee2e6;
+}
+
+.saved-clients-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px 0;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+}
+
+.client-name {
+    margin-right: 5px;
+}
+
+.delete-client {
+    visibility: hidden;
+    opacity: 0;
+    color: #dc3545;
+    margin-left: 5px;
+    font-weight: bold;
+    font-size: 1.2em;
+    transition: all 0.3s ease;
+}
+
+.saved-client-item:hover .delete-client {
+    visibility: visible;
+    opacity: 1;
+}
+
+.delete-client:hover {
+    color: #c82333;
+}
+
+.saved-items-list {
+    margin-bottom: 20px !important;
+}
+
+.header-section {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.header-section h1 {
+    margin-bottom: 10px;
+}
+
+.history-button {
+    background-color: #6c757d;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.sidebar {
+    position: fixed;
+    left: -300px;
+    top: 0;
+    width: 300px;
+    height: 100%;
+    background-color: #2c3e50;
+    transition: left 0.3s ease;
+    z-index: 1000;
+    color: white;
+}
+
+.sidebar.open {
+    left: 0;
+}
+
+.sidebar-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.sidebar-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #34495e;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    text-align: left;
+    transition: background-color 0.3s;
+}
+
+.sidebar-button:hover {
+    background-color: #3d5a80;
+}
+
+.sidebar-divider {
+    height: 1px;
+    background-color: #415b76;
+    margin: 20px 0;
+}
+
+.sidebar-section {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.sidebar-section h3 {
+    margin-bottom: 15px;
+    color: #ecf0f1;
+}
+
+.navbar {
+    background-color: #fff;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;  /* Ajouté pour centrer */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar h1 {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+}
+
+.toggle-sidebar {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 5px 10px;
+    margin-right: auto;  /* Modifié pour placer le bouton à gauche */
+    color: #2c3e50;
+    position: absolute;
+    left: 20px;
+}
+
+.toggle-sidebar:hover {
+    color: #3498db;
+}
+
+.main-content {
+    margin-left: 0;
+    transition: margin-left 0.3s ease;
+}
+
+.main-content.sidebar-open {
+    margin-left: 300px;
+}
+
+.saved-clients-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0;
+}
+
+.saved-client-item {
+    background-color: #34495e;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.saved-client-item:hover {
+    background-color: #3d5a80;
+}
+
+.delete-client {
+    color: #e74c3c;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.delete-client:hover {
+    color: #c0392b;
+}
+
+@media screen and (max-width: 768px) {
+    .flex-container {
+        flex-direction: column;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 250px;
+    }
+    
+    .main-content.sidebar-open {
+        margin-left: 0;
+    }
+
+    .navbar h1 {
+        font-size: 1.5em;
+    }
+
+    .toggle-sidebar {
+        padding: 3px 8px;
+    }
 }
