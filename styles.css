@@ -476,31 +476,34 @@ button:hover {
     padding: 15px 20px;
     display: flex;
     align-items: center;
-    justify-content: center;  /* Ajouté pour centrer */
+    justify-content: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     position: sticky;
     top: 0;
     z-index: 100;
-    min-height: 70px;  /* Ajouté pour garantir une hauteur minimale */
+    min-height: 70px;
 }
 
 
-.navbar-title {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-}
-
-.navbar h1 {
-    margin: 0;
+.brand-name {
     font-size: 1.8em;
+    margin: 0;
+    color: #2c3e50;
+    font-weight: bold;
 }
 
-.slogan {
-    margin: 5px 0 0 0;
+.brand-slogan {
     font-size: 0.9em;
     color: #666;
+    margin: 0;
+    font-weight: normal;
+    letter-spacing: 0.5px;
+}
+
+.divider {
+    margin: 0 8px;
+    color: #666;
+    font-weight: 300;
 }
 
 .toggle-sidebar {
@@ -748,7 +751,14 @@ button:hover {
         width: 100%;
     }
 
-    .slogan {
+   
+
+      .brand-name {
+        font-size: 1.5em;
+    }
+    
+    .brand-slogan {
         font-size: 0.8em;
     }
+}
 }
