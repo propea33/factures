@@ -7,7 +7,7 @@ class EmailHandler {
         const body = `
 Bonjour ${formData.clientName},
 
-J'espère que ce message vous trouve bien. Veuillez trouver ci-joint la facture ${formData.invoiceNumber} datée du ${new Date(formData.invoiceDate).toLocaleDateString('fr-CA')}.
+J'espère que vous allez bien. Veuillez trouver ci-joint la facture ${formData.invoiceNumber} datée du ${new Date(formData.invoiceDate).toLocaleDateString('fr-CA')}.
 
 Total de la facture : ${formData.currency === 'EUR' ? '€' : '$'}${formData.total}
 
