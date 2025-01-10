@@ -138,19 +138,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const sidebar = document.getElementById('sidebar');
     const toggleButton = document.getElementById('toggleSidebar');
     const mainContent = document.querySelector('.main-content');
-
+    const overlay = document.querySelector('.sidebar-overlay');
+    
     toggleButton.addEventListener('click', function() {
         sidebar.classList.toggle('open');
         mainContent.classList.toggle('sidebar-open');
+        overlay.classList.toggle('active');
     });
 
-    // Fermer le menu si on clique en dehors
-    document.addEventListener('click', function(e) {
-        if (!sidebar.contains(e.target) && !toggleButton.contains(e.target) && sidebar.classList.contains('open')) {
-            sidebar.classList.remove('open');
-            mainContent.classList.remove('sidebar-open');
-        }
-    });
+   
+   // Fermer le menu si on clique sur l'overlay
+    overlay.addEventListener('click', function() {
+    sidebar.classList.remove('open');
+    mainContent.classList.remove('sidebar-open');
+    overlay.classList.remove('active');
+});
 
     // Event listener pour le bouton d'envoi par email
     document.getElementById('emailInvoice').addEventListener('click', function() {
