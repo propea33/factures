@@ -4,6 +4,46 @@ document.addEventListener('DOMContentLoaded', function() {
     const clientStorage = new ClientStorage();
     const form = document.getElementById('invoiceForm');
 
+// Event listener pour le bouton d'envoi par email
+document.getElementById('emailInvoice').addEventListener('click', async function(e) {
+    e.preventDefault();
+    
+    // Vérifier si l'email du client est présent
+    const clientEmail = document.getElementById('clientEmail').value;
+    if (!clientEmail) {
+        alert('Veuillez entrer l\'adresse email du client avant d\'envoyer la facture.');
+        return;
+    }
+
+    const noTax = document.getElementById('noTax').checked;
+    const currency = document.getElementById('currencySelect').value;
+
+    // Collecter les données du formulaire
+    const formData = {
+        businessName: document.getElementById('businessName').value || 'N/A',
+        businessEmail: document.getElementById('businessEmail').value || 'N/A',
+        businessAddress: document.getElementById('businessAddress').value || 'N/A',
+        businessPhone: document.getElementById('businessPhone').value || 'N/A',
+        clientName: document.getElementById('clientName').value || 'N/A',
+        clientEmail: clientEmail,
+        invoiceNumber: document.getElementById('invoiceNumber').value,
+        invoiceDate: document.getElementById('invoiceDate').value,
+        currency: currency
+    };
+
+    // Calculer le total
+    const items = new ItemManager().getItems();
+    const subtotal = items.reduce((sum, item) => sum + item.amount, 0);
+    const taxes = noTax ? 
+        { subtotal, tps: 0, tvq: 0, total: subtotal } : 
+        TaxCalculator.calculateTaxes(subtotal);
+    
+    formData.total = taxes.total.toFixed(2);
+
+    // Envoyer l'email
+    EmailHandler.sendInvoiceEmail(formData);
+});
+    
     // Set default date to today
     document.getElementById('invoiceDate').valueAsDate = new Date();
     
