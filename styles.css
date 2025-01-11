@@ -131,6 +131,7 @@ button:hover {
     z-index: 100;
     min-height: 70px;
     width: 100%;
+    position: relative;
 }
 
 .title-container {
@@ -138,6 +139,8 @@ button:hover {
     align-items: center;
     gap: 12px;
     justify-content: center;
+    margin: 0 auto;
+    padding: 0 40px; /* Espace pour le bouton de menu */
 }
 
 .navbar h1 {
@@ -160,16 +163,17 @@ button:hover {
 }
 
 .toggle-sidebar {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
     background: none;
     border: none;
     font-size: 28px;
     cursor: pointer;
     padding: 8px 12px;
     color: #2c3e50;
-    position: absolute;
-    left: 20px;
-    display: flex;
-    align-items: center;
+    z-index: 1;
 }
 
 #previewInvoice {
@@ -481,6 +485,11 @@ button:hover {
 
 /* Responsive */
 @media screen and (max-width: 768px) {
+
+     .navbar {
+        padding: 10px;
+    }
+    
     .flex-container {
         flex-direction: column;
     }
@@ -498,24 +507,28 @@ button:hover {
     }
 
      .title-container {
-        flex-direction: row;
-        align-items: center;
-        gap: 8px;
+        width: 100%;
+        padding: 0 35px; /* Ajusté pour le mobile */
+        flex-wrap: nowrap;
+        white-space: nowrap;
+        overflow: hidden;
     }
     
     .title-separator {
         margin: 0 4px;
     }
     
-      .slogan {
-        font-size: 0.8em;
+     .slogan {
+        font-size: 0.75em;
     }
     
-    .navbar h1 {
-        font-size: 1.4em;
+   .navbar h1 {
+        font-size: 1.2em;
     }
     
     .toggle-sidebar {
-        padding: 3px 8px;
+        left: 10px;
+        font-size: 24px;
+        padding: 6px 10px;
     }
 }
