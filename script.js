@@ -96,44 +96,45 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Preview handler
-    document.getElementById('previewInvoice').addEventListener('click', function() {
-        const noTax = document.getElementById('noTax').checked;
-        const currency = document.getElementById('currencySelect').value;
+  document.getElementById('previewInvoice').addEventListener('click', function() {
+    const noTax = document.getElementById('noTax').checked;
+    const currency = document.getElementById('currencySelect').value;
 
-        const formData = {
-            businessName: document.getElementById('businessName').value || 'N/A',
-            businessEmail: document.getElementById('businessEmail').value || 'N/A',
-            businessAddress: document.getElementById('businessAddress').value || 'N/A',
-            businessPhone: document.getElementById('businessPhone').value || 'N/A',
-            gstNumber: document.getElementById('gstNumber').value || 'N/A',
-            qstNumber: document.getElementById('qstNumber').value || 'N/A',
-            clientName: document.getElementById('clientName').value || 'N/A',
-            clientEmail: document.getElementById('clientEmail').value || 'N/A',
-            clientAddress: document.getElementById('clientAddress').value || 'N/A',
-            clientPhone: document.getElementById('clientPhone').value || 'N/A',
-            invoiceNumber: document.getElementById('invoiceNumber').value || 'N/A',
-            invoiceDate: document.getElementById('invoiceDate').value,
-            currency: currency,
-            noTax: noTax
+    const formData = {
+        businessName: document.getElementById('businessName').value || 'N/A',
+        businessEmail: document.getElementById('businessEmail').value || 'N/A',
+        businessAddress: document.getElementById('businessAddress').value || 'N/A',
+        businessPhone: document.getElementById('businessPhone').value || 'N/A',
+        gstNumber: document.getElementById('gstNumber').value || 'N/A',
+        qstNumber: document.getElementById('qstNumber').value || 'N/A',
+        clientName: document.getElementById('clientName').value || 'N/A',
+        clientEmail: document.getElementById('clientEmail').value || 'N/A',
+        clientAddress: document.getElementById('clientAddress').value || 'N/A',
+        clientPhone: document.getElementById('clientPhone').value || 'N/A',
+        clientAdditionalInfo: document.getElementById('clientAdditionalInfo').value || '', // Ajout du champ
+        invoiceNumber: document.getElementById('invoiceNumber').value || 'N/A',
+        invoiceDate: document.getElementById('invoiceDate').value,
+        currency: currency,
+        noTax: noTax
+    };
+
+    const items = itemManager.getItems();
+    const subtotal = items.reduce((sum, item) => sum + item.amount, 0);
+    
+    let taxes;
+    if (noTax) {
+        taxes = {
+            subtotal: subtotal,
+            tps: 0,
+            tvq: 0,
+            total: subtotal
         };
+    } else {
+        taxes = TaxCalculator.calculateTaxes(subtotal);
+    }
 
-        const items = itemManager.getItems();
-        const subtotal = items.reduce((sum, item) => sum + item.amount, 0);
-        
-        let taxes;
-        if (noTax) {
-            taxes = {
-                subtotal: subtotal,
-                tps: 0,
-                tvq: 0,
-                total: subtotal
-            };
-        } else {
-            taxes = TaxCalculator.calculateTaxes(subtotal);
-        }
-
-        PDFGenerator.showPreview(formData, items, taxes);
-    });
+    PDFGenerator.showPreview(formData, items, taxes);
+});
 
     // Configuration du menu latéral
     const sidebar = document.getElementById('sidebar');
