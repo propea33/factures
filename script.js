@@ -3,6 +3,23 @@ document.addEventListener('DOMContentLoaded', function() {
     const itemManager = new ItemManager();
     const clientStorage = new ClientStorage();
     const form = document.getElementById('invoiceForm');
+
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    const body = document.body;
+    
+    // Vérifier si un thème est déjà sauvegardé
+    const isDarkMode = localStorage.getItem('darkMode') === 'true';
+    if (isDarkMode) {
+        body.classList.add('dark-mode');
+        darkModeToggle.textContent = '☀️';
+    }
+    
+    darkModeToggle.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        const isDark = body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        darkModeToggle.textContent = isDark ? '☀️' : '🌙';
+    });
  
     // Set default date to today
     document.getElementById('invoiceDate').valueAsDate = new Date();
