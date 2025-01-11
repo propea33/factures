@@ -50,32 +50,33 @@ class ClientStorage {
     }
 
     setupClientEvents() {
-        if (!this.clientListContainer) return;
-        
-        const clientItems = this.clientListContainer.querySelectorAll('.saved-client-item');
-        
-        clientItems.forEach(item => {
-            const clientName = item.querySelector('.client-name').textContent;
-            const deleteBtn = item.querySelector('.delete-client');
+    if (!this.clientListContainer) return;
+    
+    const clientItems = this.clientListContainer.querySelectorAll('.saved-client-item');
+    
+    clientItems.forEach(item => {
+        const clientName = item.querySelector('.client-name').textContent;
+        const deleteBtn = item.querySelector('.delete-client');
 
-            item.querySelector('.client-name').addEventListener('click', () => {
-                const client = this.getSavedClients().find(c => c.clientName === clientName);
-                if (client) {
-                    this.loadClientData(client);
-                    // Fermer le sidebar après avoir sélectionné un client
-                    document.getElementById('sidebar').classList.remove('open');
-                    document.querySelector('.main-content').classList.remove('sidebar-open');
-                }
-            });
-
-            deleteBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                if (confirm(`Êtes-vous sûr de vouloir supprimer le client "${clientName}" ?`)) {
-                    this.deleteClient(clientName);
-                }
-            });
+        item.querySelector('.client-name').addEventListener('click', () => {
+            const client = this.getSavedClients().find(c => c.clientName === clientName);
+            if (client) {
+                this.loadClientData(client);
+                // Fermer le sidebar et l'overlay
+                document.getElementById('sidebar').classList.remove('open');
+                document.querySelector('.main-content').classList.remove('sidebar-open');
+                document.querySelector('.sidebar-overlay').classList.remove('active');
+            }
         });
-    }
+
+        deleteBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (confirm(`Êtes-vous sûr de vouloir supprimer le client "${clientName}" ?`)) {
+                this.deleteClient(clientName);
+            }
+        });
+    });
+}
 
     loadClientData(clientData) {
         Object.keys(clientData).forEach(key => {
