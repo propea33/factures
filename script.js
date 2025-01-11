@@ -58,6 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
             clientEmail: document.getElementById('clientEmail').value,
             clientAddress: document.getElementById('clientAddress').value,
             clientPhone: document.getElementById('clientPhone').value,
+            clientAdditionalInfo: document.getElementById('clientAdditionalInfo').value,
             invoiceNumber: document.getElementById('invoiceNumber').value,
             invoiceDate: document.getElementById('invoiceDate').value,
             currency: currency,
