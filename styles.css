@@ -428,6 +428,7 @@ button:hover {
     cursor: pointer;
     transition: all 0.3s ease;
     margin: 5px;
+    width: 100%;
 }
 
 .saved-client-item:hover {
@@ -443,6 +444,7 @@ button:hover {
 
 .client-name {
     margin-right: 5px;
+    color: #ffffff; /* Ajout de la couleur blanche pour le texte */
 }
 
 .delete-client {
