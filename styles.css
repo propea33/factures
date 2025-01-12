@@ -605,16 +605,21 @@ button:hover {
 /* Responsive */
 @media screen and (max-width: 768px) {
 
-      .dark-mode-toggle {
-        position: absolute;
-        right: 10px;
+    .dark-mode-toggle {
+        position: relative;
+        right: 0;
         font-size: 24px;
         padding: 6px 10px;
+        margin-left: 10px;
     }
 
      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         padding: 10px;
-         justify-content: center;
+        position: relative;
+        min-height: 60px;
     }
     
     .flex-container {
@@ -637,27 +642,36 @@ button:hover {
         position: relative;
         left: 0;
         transform: none;
-        padding: 0 35px;
+        flex: 1;
+        display: flex;
         justify-content: center;
-        width: auto;
+        align-items: center;
+        min-width: 0;
+        padding: 0 5px;
     }
     
     .title-separator {
         margin: 0 4px;
     }
     
-     .slogan {
+      .slogan {
         font-size: 0.75em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     
-   .navbar h1 {
+     .navbar h1 {
         font-size: 1.2em;
+        white-space: nowrap;
+        margin: 0;
     }
     
     .toggle-sidebar {
-        position: absolute;
-        left: 10px;
+        position: relative;
+        left: 0;
         font-size: 24px;
         padding: 6px 10px;
+        margin-right: 10px;
     }
 }
