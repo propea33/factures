@@ -1,6 +1,6 @@
 /* Dark Mode Toggle */
 .dark-mode-toggle {
-    position: static; /* Changed from absolute */
+    position: relative;
     background: none;
     border: none;
     font-size: 20px;
@@ -29,6 +29,11 @@ body.dark-mode .navbar {
 body.dark-mode .form-section {
     background: #363636;
     border-color: #404040;
+}
+
+body.dark-mode .toggle-sidebar,
+body.dark-mode .dark-mode-toggle {
+    color: #e1e1e1;
 }
 
 body.dark-mode input,
@@ -239,23 +244,25 @@ button:hover {
 .navbar {
     background-color: #fff;
     padding: 15px 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     position: sticky;
     top: 0;
     z-index: 100;
-    min-height: 70px;
     width: 100%;
+    min-height: 70px;
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Changed to space-between */
+    justify-content: space-between;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .title-container {
-    flex: 1;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 12px;
+    white-space: nowrap;
 }
 
 .navbar h1 {
@@ -278,7 +285,7 @@ button:hover {
 }
 
 .toggle-sidebar {
-    position: static; /* Changed from absolute */
+    position: relative;
     background: none;
     border: none;
     font-size: 28px;
@@ -598,8 +605,16 @@ button:hover {
 /* Responsive */
 @media screen and (max-width: 768px) {
 
+      .dark-mode-toggle {
+        position: absolute;
+        right: 10px;
+        font-size: 24px;
+        padding: 6px 10px;
+    }
+
      .navbar {
         padding: 10px;
+         justify-content: center;
     }
     
     .flex-container {
@@ -619,9 +634,12 @@ button:hover {
     }
 
    .title-container {
-        padding: 0;
-        white-space: nowrap;
-        overflow: hidden;
+        position: relative;
+        left: 0;
+        transform: none;
+        padding: 0 35px;
+        justify-content: center;
+        width: auto;
     }
     
     .title-separator {
@@ -636,7 +654,9 @@ button:hover {
         font-size: 1.2em;
     }
     
-   .toggle-sidebar {
+    .toggle-sidebar {
+        position: absolute;
+        left: 10px;
         font-size: 24px;
         padding: 6px 10px;
     }
