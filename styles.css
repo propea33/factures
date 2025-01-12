@@ -605,15 +605,16 @@ button:hover {
 /* Responsive */
 @media screen and (max-width: 768px) {
 
-    .dark-mode-toggle {
+      .dark-mode-toggle {
         position: relative;
         right: 0;
         font-size: 24px;
         padding: 6px 10px;
         margin-left: 10px;
+        flex-shrink: 0; /* Empêche le bouton de se rétrécir */
     }
 
-     .navbar {
+      .navbar {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -647,31 +648,49 @@ button:hover {
         justify-content: center;
         align-items: center;
         min-width: 0;
-        padding: 0 5px;
+        padding: 0 5px;        
+        flex-wrap: nowrap; /* Empêche le retour à la ligne */
+        gap: 4px; /* Réduit l'espace entre les éléments */
     }
     
     .title-separator {
         margin: 0 4px;
+        display: inline-block; /* Assure que le séparateur reste visible */
     }
     
       .slogan {
-        font-size: 0.75em;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        font-size: 0.8em; /* Légèrement réduit pour mieux s'adapter */
+        white-space: normal; /* Permet le retour à la ligne si nécessaire */
+        min-width: 0;
+        flex-shrink: 1; /* Permet au slogan de se rétrécir si nécessaire */
+        text-overflow: clip; /* Évite les points de suspension */
+        overflow: visible; /* Permet au texte d'être entièrement visible */
+        line-height: 1.2; /* Optimise la hauteur de ligne */
     }
     
-     .navbar h1 {
-        font-size: 1.2em;
+      .navbar h1 {
+        font-size: 1.1em; /* Légèrement réduit */
         white-space: nowrap;
         margin: 0;
+        flex-shrink: 0; /* Empêche le titre de se rétrécir */
     }
     
-    .toggle-sidebar {
+     .toggle-sidebar {
         position: relative;
         left: 0;
         font-size: 24px;
         padding: 6px 10px;
         margin-right: 10px;
+        flex-shrink: 0; /* Empêche le bouton de se rétrécir */
+    }
+}
+
+@media screen and (max-width: 380px) {
+    .navbar h1 {
+        font-size: 1em;
+    }
+
+    .slogan {
+        font-size: 0.7em;
     }
 }
