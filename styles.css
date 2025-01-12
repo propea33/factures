@@ -1,9 +1,6 @@
 /* Dark Mode Toggle */
 .dark-mode-toggle {
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
+    position: static; /* Changed from absolute */
     background: none;
     border: none;
     font-size: 20px;
@@ -242,25 +239,23 @@ button:hover {
 .navbar {
     background-color: #fff;
     padding: 15px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     position: sticky;
     top: 0;
     z-index: 100;
     min-height: 70px;
     width: 100%;
-    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Changed to space-between */
 }
 
 .title-container {
+    flex: 1;
     display: flex;
     align-items: center;
-    gap: 12px;
     justify-content: center;
-    margin: 0 auto;
-    padding: 0 40px; /* Espace pour le bouton de menu */
+    gap: 12px;
 }
 
 .navbar h1 {
@@ -283,10 +278,7 @@ button:hover {
 }
 
 .toggle-sidebar {
-    position: absolute;
-    left: 20px;
-    top: 50%;
-    transform: translateY(-50%);
+    position: static; /* Changed from absolute */
     background: none;
     border: none;
     font-size: 28px;
@@ -626,10 +618,8 @@ button:hover {
         margin-left: 0;
     }
 
-     .title-container {
-        width: 100%;
-        padding: 0 35px; /* Ajusté pour le mobile */
-        flex-wrap: nowrap;
+   .title-container {
+        padding: 0;
         white-space: nowrap;
         overflow: hidden;
     }
@@ -646,8 +636,7 @@ button:hover {
         font-size: 1.2em;
     }
     
-    .toggle-sidebar {
-        left: 10px;
+   .toggle-sidebar {
         font-size: 24px;
         padding: 6px 10px;
     }
