@@ -123,7 +123,7 @@ class PDFGenerator {
                 </table>
 
                <div style="margin: 20px 0;">
-    <h3 style="margin: 0 0 10px 0;">Facturer à:</h3>
+    <h3 style="margin: 0 0 10px 0;">Facturé à:</h3>
     <p style="margin: 5px 0;">${formData.clientName || ''}</p>
     <p style="margin: 5px 0;">${formData.clientAddress || ''}</p>
     <p style="margin: 5px 0;">Tél: ${formData.clientPhone || ''}</p>
